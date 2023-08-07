@@ -34,7 +34,7 @@
                 </li>
                 <li class="nav-header">REKAMEDIS</li>
                 <li class="nav-item">
-                    <a href="" class="nav-link @if($menu == 'masterpasien' ) active @endif">
+                    <a href="{{ route('pendaftaran')}}" class="nav-link @if($menu == 'Pendaftaran' ) active @endif">
                         <i class="nav-icon fas fa-archive"></i>
                         <p>
                             Pendaftaran
@@ -43,10 +43,10 @@
                 </li>
                 <li class="nav-header">PELAYANAN</li>
                 <li class="nav-item">
-                    <a href="" class="nav-link @if($menu == 'masterpasien' ) active @endif">
+                    <a href="{{ route('ermpasien')}}" class="nav-link @if($menu == 'ERM - Pasien' ) active @endif">
                         <i class="nav-icon fas fa-archive"></i>
                         <p>
-                            Menu 1
+                            E-RM Pasien
                         </p>
                     </a>
                 </li>

@@ -9,3 +9,5 @@ use App\Http\Controllers\PelayananController;
 
 
 Route::get('/', [DashboardController::class, 'Index'])->name('dashboard');
+Route::get('pendaftaran', [RekamedisController::class, 'Index'])->name('pendaftaran');
+Route::get('ermpasien', [PelayananController::class, 'Index'])->name('ermpasien');
