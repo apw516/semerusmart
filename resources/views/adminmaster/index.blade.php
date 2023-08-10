@@ -17,7 +17,69 @@
                     <div class="active tab-pane" id="pasien">
                         <div class="row" style="align-content: 10px;">
                             <h4 class="col-md-2">Data Pasien Klinik</h4>
-                            <button class="btn btn-success">+ | TAMBAH PASIEN</button>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#formtambahpasien" data-isi="Web Master">Tambah Pasien</button>
+                            <div class="modal  col-md-12" id="formtambahpasien" aria-labelledby="formtambahpasienLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="formtambahpasienLabel">Daftarkan Pasien Baru </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group row">
+                                                    <label for="inputName" class="col-sm-2 col-form-label">NIK</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputEmail" class="col-sm-2 col-form-label">NAMA</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputName2" class="col-sm-2 col-form-label">Usia</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                                                    <div class="col-sm-12">
+                                                        <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="offset-sm-2 col-sm-12">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="offset-sm-2 col-sm-12">
+                                                        <button type="submit" class="btn btn-danger">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row center" style="align-content:center; margin-top: 10px">
                             <div class="col-sm-3">
@@ -167,8 +229,70 @@
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="pegawai">
                         <div class="row" style="align-content: 10px;">
-                            <h4 class="col-md-2">Data Pasien Klinik</h4>
-                            <button class="btn btn-success">+ | TAMBAH PEGAWAI</button>
+                            <h4 class="col-md-2">Data Pegawai Klinik</h4>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#formtambahdokter" data-isi="Web Master">Tambah Pegawai</button>
+                            <div class="modal  col-md-12" id="formtambahdokter" aria-labelledby="formtambahdokterLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="formtambahdokterLabel">Daftarkan Pasien Baru </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group row">
+                                                    <label for="inputName" class="col-sm-2 col-form-label">NIK</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputEmail" class="col-sm-2 col-form-label">NAMA</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputName2" class="col-sm-2 col-form-label">Usia</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                                                    <div class="col-sm-12">
+                                                        <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="offset-sm-2 col-sm-12">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="offset-sm-2 col-sm-12">
+                                                        <button type="submit" class="btn btn-danger">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row center" style="align-content:center; margin-top:15px">
                             <div class="col-sm-3">
@@ -470,6 +594,20 @@
             "autoWidth": false,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         });
+    });
+    $('#formtambahpasien').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var recipient = button.data('isi')
+        var modal = $(this)
+
+        modal.find('.modal-body input').val(recipient)
+    });
+    $('#formtambahdokter').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var recipient = button.data('isi')
+        var modal = $(this)
+
+        modal.find('.modal-body input').val(recipient)
     });
 </script>
 
