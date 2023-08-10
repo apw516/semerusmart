@@ -1,13 +1,15 @@
 @extends('templates.main')
 @section('container')
+
+
 <div class="row" style="margin-top: 30px;">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#pasien" data-toggle="tab">Data Pasien</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#user" data-toggle="tab">Data User</a></li>
                     <li class="nav-item"><a class="nav-link" href="#pegawai" data-toggle="tab">Data Pegawai</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#user" data-toggle="tab">Data User</a></li>
                 </ul>
             </div><!-- /.card-header -->
             <div class="card-body">
@@ -163,8 +165,12 @@
                         </div>
                     </div>
                     <!-- /.tab-pane -->
-                    <div class="tab-pane" id="user">
-                        <div class="row center" style="align-content:center">
+                    <div class="tab-pane" id="pegawai">
+                        <div class="row" style="align-content: 10px;">
+                            <h4 class="col-md-2">Data Pasien Klinik</h4>
+                            <button class="btn btn-success">+ | TAMBAH PEGAWAI</button>
+                        </div>
+                        <div class="row center" style="align-content:center; margin-top:15px">
                             <div class="col-sm-3">
                                 <input type="text" class="form-control" placeholder="Nama Pegawai">
                             </div>
@@ -183,209 +189,211 @@
                             </div>
                         </div>
                         <div class="row" style="align-content: center; margin-top: 20px">
-                            <table class="table table-striped projects">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 1%">
-                                            NIP
-                                        </th>
-                                        <th style="width: 20%">
-                                            Nama Pegawai
-                                        </th>
-                                        <th style="width: 30%">
-                                            Jabatan
-                                        </th>
-                                        <th>
-                                            Alamat
-                                        </th>
-                                        <th style="width: 8%" class="text-center">
-                                            Status
-                                        </th>
-                                        <th style="width: 20%">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            6789098
-                                        </td>
-                                        <td>
-                                            David Bayu
+                            <div class="col-md-12">
+                                <table id="datapegawai" class=" table table-striped projects">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 1%">
+                                                NIP
+                                            </th>
+                                            <th style="width: 20%">
+                                                Nama Pegawai
+                                            </th>
+                                            <th style="width: 30%">
+                                                Jabatan
+                                            </th>
+                                            <th>
+                                                Alamat
+                                            </th>
+                                            <th style="width: 8%" class="text-center">
+                                                Status
+                                            </th>
+                                            <th style="width: 20%">
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                6789098
+                                            </td>
+                                            <td>
+                                                David Bayu
 
-                                        </td>
-                                        <td>
-                                            CEO
-                                        </td>
-                                        <td class="project_progress">
-                                            jln. Raya Pakusamben Wetan no. 075
-                                        </td>
-                                        <td class="project-state">
-                                            <span class="badge badge-success">Aktif</span>
-                                        </td>
-                                        <td class="project-actions text-right">
-                                            <a class="btn btn-primary btn-sm" href="#">
-                                                <i class="fas fa-folder">
-                                                </i>
-                                                View
-                                            </a>
-                                            <a class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Edit
-                                            </a>
-                                            <a class="btn btn-danger btn-sm" href="#">
-                                                <i class="fas fa-trash">
-                                                </i>
-                                                Delete
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            6789099
-                                        </td>
-                                        <td>
-                                            Adinda Thomas
+                                            </td>
+                                            <td>
+                                                CEO
+                                            </td>
+                                            <td class="project_progress">
+                                                jln. Raya Pakusamben Wetan no. 075
+                                            </td>
+                                            <td class="project-state">
+                                                <span class="badge badge-success">Aktif</span>
+                                            </td>
+                                            <td class="project-actions text-right">
+                                                <a class="btn btn-primary btn-sm" href="#">
+                                                    <i class="fas fa-folder">
+                                                    </i>
+                                                    View
+                                                </a>
+                                                <a class="btn btn-info btn-sm" href="#">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Edit
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="#">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                6789099
+                                            </td>
+                                            <td>
+                                                Adinda Thomas
 
-                                        </td>
-                                        <td>
-                                            Manager Klinik
-                                        </td>
-                                        <td class="project_progress">
-                                            jln. Raya Kudukeras Wetan no. 001
-                                        </td>
-                                        <td class="project-state">
-                                            <span class="badge badge-success">Aktif</span>
-                                        </td>
-                                        <td class="project-actions text-right">
-                                            <a class="btn btn-primary btn-sm" href="#">
-                                                <i class="fas fa-folder">
-                                                </i>
-                                                View
-                                            </a>
-                                            <a class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Edit
-                                            </a>
-                                            <a class="btn btn-danger btn-sm" href="#">
-                                                <i class="fas fa-trash">
-                                                </i>
-                                                Delete
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            6789080
-                                        </td>
-                                        <td>
-                                            jihan Utami
-                                        </td>
-                                        <td>
-                                            Admin
-                                        </td>
-                                        <td class="project_progress">
-                                            jln. Raya Babakan Wetan no. 001
-                                        </td>
-                                        <td class="project-state">
-                                            <span class="badge badge-danger">Tidak Aktif</span>
-                                        </td>
-                                        <td class="project-actions text-right">
-                                            <a class="btn btn-primary btn-sm" href="#">
-                                                <i class="fas fa-folder">
-                                                </i>
-                                                View
-                                            </a>
-                                            <a class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Edit
-                                            </a>
-                                            <a class="btn btn-danger btn-sm" href="#">
-                                                <i class="fas fa-trash">
-                                                </i>
-                                                Delete
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            6789010
-                                        </td>
-                                        <td>
-                                            Adji santoso Utama
-                                        </td>
-                                        <td>
-                                            Perawat
-                                        </td>
-                                        <td class="project_progress">
-                                            jln. Raya Babakan Gebang no. 021
-                                        </td>
-                                        <td class="project-state">
-                                            <span class="badge badge-danger">Tidak Aktif</span>
-                                        </td>
-                                        <td class="project-actions text-right">
-                                            <a class="btn btn-primary btn-sm" href="#">
-                                                <i class="fas fa-folder">
-                                                </i>
-                                                View
-                                            </a>
-                                            <a class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Edit
-                                            </a>
-                                            <a class="btn btn-danger btn-sm" href="#">
-                                                <i class="fas fa-trash">
-                                                </i>
-                                                Delete
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            6789129
-                                        </td>
-                                        <td>
-                                            Rizqi Febriansyah
-                                        </td>
-                                        <td>
-                                            Dokter Kelamin
-                                        </td>
-                                        <td class="project_progress">
-                                            jln. Raya Babakan  no. 005
-                                        </td>
-                                        <td class="project-state">
-                                            <span class="badge badge-success">Aktif</span>
-                                        </td>
-                                        <td class="project-actions text-right">
-                                            <a class="btn btn-primary btn-sm" href="#">
-                                                <i class="fas fa-folder">
-                                                </i>
-                                                View
-                                            </a>
-                                            <a class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Edit
-                                            </a>
-                                            <a class="btn btn-danger btn-sm" href="#">
-                                                <i class="fas fa-trash">
-                                                </i>
-                                                Delete
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            </td>
+                                            <td>
+                                                Manager Klinik
+                                            </td>
+                                            <td class="project_progress">
+                                                jln. Raya Kudukeras Wetan no. 001
+                                            </td>
+                                            <td class="project-state">
+                                                <span class="badge badge-success">Aktif</span>
+                                            </td>
+                                            <td class="project-actions text-right">
+                                                <a class="btn btn-primary btn-sm" href="#">
+                                                    <i class="fas fa-folder">
+                                                    </i>
+                                                    View
+                                                </a>
+                                                <a class="btn btn-info btn-sm" href="#">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Edit
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="#">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                6789080
+                                            </td>
+                                            <td>
+                                                jihan Utami
+                                            </td>
+                                            <td>
+                                                Admin
+                                            </td>
+                                            <td class="project_progress">
+                                                jln. Raya Babakan Wetan no. 001
+                                            </td>
+                                            <td class="project-state">
+                                                <span class="badge badge-danger">Tidak Aktif</span>
+                                            </td>
+                                            <td class="project-actions text-right">
+                                                <a class="btn btn-primary btn-sm" href="#">
+                                                    <i class="fas fa-folder">
+                                                    </i>
+                                                    View
+                                                </a>
+                                                <a class="btn btn-info btn-sm" href="#">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Edit
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="#">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                6789010
+                                            </td>
+                                            <td>
+                                                Adji santoso Utama
+                                            </td>
+                                            <td>
+                                                Perawat
+                                            </td>
+                                            <td class="project_progress">
+                                                jln. Raya Babakan Gebang no. 021
+                                            </td>
+                                            <td class="project-state">
+                                                <span class="badge badge-danger">Tidak Aktif</span>
+                                            </td>
+                                            <td class="project-actions text-right">
+                                                <a class="btn btn-primary btn-sm" href="#">
+                                                    <i class="fas fa-folder">
+                                                    </i>
+                                                    View
+                                                </a>
+                                                <a class="btn btn-info btn-sm" href="#">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Edit
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="#">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                6789129
+                                            </td>
+                                            <td>
+                                                Rizqi Febriansyah
+                                            </td>
+                                            <td>
+                                                Dokter Kelamin
+                                            </td>
+                                            <td class="project_progress">
+                                                jln. Raya Babakan no. 005
+                                            </td>
+                                            <td class="project-state">
+                                                <span class="badge badge-success">Aktif</span>
+                                            </td>
+                                            <td class="project-actions text-right">
+                                                <a class="btn btn-primary btn-sm" href="#">
+                                                    <i class="fas fa-folder">
+                                                    </i>
+                                                    View
+                                                </a>
+                                                <a class="btn btn-info btn-sm" href="#">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Edit
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="#">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <!-- /.tab-pane -->
 
-                    <div class="tab-pane" id="pegawai">
+                    <div class="tab-pane" id="user">
                         <form class="form-horizontal">
                             <div class="form-group row">
                                 <label for="inputName" class="col-sm-2 col-form-label">Name</label>
@@ -454,5 +462,15 @@
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         });
     });
+    $(function() {
+        $("#datapegawai").DataTable({
+            "responsive": false,
+            "lengthChange": false,
+            "pageLength": 5,
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        });
+    });
 </script>
+
 @endsection
