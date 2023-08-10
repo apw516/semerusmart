@@ -61,10 +61,10 @@
                 </li>
                 <li class="nav-header">DATA MASTER</li>
                 <li class="nav-item">
-                    <a href="" class="nav-link @if($menu == 'masterpasien' ) active @endif">
+                    <a href="{{ route('master')}}" class="nav-link @if($menu == 'MASTER' ) active @endif">
                         <i class="nav-icon fas fa-archive"></i>
                         <p>
-                            Menu 1
+                            Master 
                         </p>
                     </a>
                 </li>
