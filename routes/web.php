@@ -10,6 +10,12 @@ use App\Http\Controllers\PelayananController;
 
 Route::get('/', [DashboardController::class, 'Index'])->name('dashboard');
 Route::get('pendaftaran', [RekamedisController::class, 'Index'])->name('pendaftaran');
+Route::post('ambil_data_pasien', [RekamedisController::class, 'AmbilDataPasien'])->name('ambil_data_pasien');
+Route::get('cariprovinsi', [RekamedisController::class, 'CariProvinsi'])->name('cariprovinsi');
+Route::get('carikabupaten', [RekamedisController::class, 'CariKabupaten'])->name('carikabupaten');
+Route::get('carikecamatan', [RekamedisController::class, 'CariKecamatan'])->name('carikecamatan');
+Route::get('caridesa', [RekamedisController::class, 'CariDesa'])->name('caridesa');
+Route::post('simpanpasienbaru', [RekamedisController::class, 'SimpanPasienBaru'])->name('simpanpasienbaru');
 Route::get('ermpasien', [PelayananController::class, 'Index'])->name('ermpasien');
 
 // Master

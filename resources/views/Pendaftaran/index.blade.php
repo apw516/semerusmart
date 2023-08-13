@@ -27,7 +27,7 @@
                     <form class="form-inline mb-3">
                         <div class="form-group mx-sm-2 mb-2">
                             <label for="inputPassword2" class="sr-only">Password</label>
-                            <input type="text" class="form-control" id="inputPassword2" placeholder="Nomor RM">
+                            <input type="text" class="form-control" id="" placeholder="Nomor RM">
                         </div>
                         <div class="form-group mx-sm-2 mb-2">
                             <label for="inputPassword2" class="sr-only">Password</label>
@@ -39,34 +39,9 @@
                         </div>
                         <button type="submit" class="btn btn-primary mb-2"><i class="bi bi-search mr-2"></i>Pasien</button>
                     </form>
-                    <table id="tabelpasien" class="table table-sm table-hover table-bordered mt-5">
-                        <thead class="bg-secondary">
-                            <th>Nomor RM</th>
-                            <th>NIK</th>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                        </thead>
-                        <tbody>
-                            <tr class="pilihpasien" data-toggle="modal" data-target="#modalpendaftaran">
-                                <td>123</td>
-                                <td>1111</td>
-                                <td>Nama Pasien 1</td>
-                                <td>Pabuaran</td>
-                            </tr>
-                            <tr data-toggle="modal" data-target="#modalpendaftaran">
-                                <td>321</td>
-                                <td>1123</td>
-                                <td>Nama Pasien 2</td>
-                                <td>Ciledug</td>
-                            </tr>
-                            <tr data-toggle="modal" data-target="#modalpendaftaran">
-                                <td>231</td>
-                                <td>3123123</td>
-                                <td>Nama Pasien 3</td>
-                                <td>Babakan</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="v_tabel_pasien">
+
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <h5>Data Antrian Pasien</h5>
@@ -142,7 +117,7 @@
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-success">
                     <h5 class="modal-title" id="staticBackdropLabel"> <i class="bi bi-person-plus-fill mr-1"></i> Pasien
                         Baru</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -150,12 +125,145 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form class="form-pasien-baru">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">NIK</label>
+                                    <input type="email" class="form-control" id="nik" name="nik"
+                                        aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nomor Asuransi</label>
+                                    <input type="email" class="form-control" id="nomorasuransi" name="nomorasuransi"
+                                        aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nama Pasien</label>
+                                    <input type="email" class="form-control" id="namapx" name="namapx"
+                                        aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Jenis Kelamin</label>
+                                    <select class="form-control" id="jeniskelamin" name="jeniskelamin">
+                                        <option value="L">Laki - Laki</option>
+                                        <option value="P">Perempuan</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Tempat Lahir</label>
+                                    <input type="text" class="form-control" id="tempatlahir" name="tempatlahir"
+                                        aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Tanggal Lahir</label>
+                                    <input type="date" class="form-control" id="tanggallahir" name="tanggallahir"
+                                        aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Agama</label>
+                                    <select class="form-control" id="agama" name="agama">
+                                        @foreach ($agama as $a)
+                                            <option value="{{ $a->ID }}">{{ $a->agama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Status Perkawinan</label>
+                                    <select class="form-control" id="statusperkawinan" name="statusperkawinan">
+                                        @foreach ($status_perkawinan as $sk)
+                                            <option value="{{ $sk->ID }}">{{ $sk->status_kawin }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Pendidikan</label>
+                                    <select class="form-control" id="pendidikan" name="pendidikan">
+                                        @foreach ($pendidikan as $p)
+                                            <option value="{{ $p->ID }}">{{ $p->pendidikan }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Pekerjaan</label>
+                                    <select class="form-control" id="pekerjaan" name="pekerjaan">
+                                        @foreach ($pekerjaan as $pj)
+                                            <option value="{{ $pj->ID }}">{{ $pj->pekerjaan }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Provinsi</label>
+                                    <input type="text" class="form-control" id="provinsi" name="provinsi"
+                                        aria-describedby="emailHelp">
+                                    <input hidden type="text" class="form-control" id="kodeprovinsi"
+                                        name="kodeprovinsi" aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Kabupaten</label>
+                                    <input type="text" class="form-control" id="kabupaten" name="kabupaten"
+                                        aria-describedby="emailHelp">
+                                    <input hidden type="text" class="form-control" id="kodekabupaten"
+                                        name="kodekabupaten" aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Kecamatan</label>
+                                    <input type="text" class="form-control" id="kecamatan" name="kecamatan"
+                                        aria-describedby="emailHelp">
+                                    <input hidden type="text" class="form-control" id="kodekecamatan"
+                                        name="kodekecamatan" aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Desa</label>
+                                    <input type="text" class="form-control" id="desa" name="desa"
+                                        aria-describedby="emailHelp">
+                                    <input hidden type="text" class="form-control" id="kodedesa" name="kodedesa"
+                                        aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
                             class="bi bi-x mr-1"></i>Close</button>
-                    <button type="button" class="btn btn-primary"><i class="bi bi-save mr-1"></i> Simpan</button>
+                    <button type="button" class="btn btn-primary" onclick="simpanpasienbaru()"><i
+                            class="bi bi-save mr-1"></i> Simpan</button>
                 </div>
             </div>
         </div>
@@ -182,8 +290,10 @@
             </div>
         </div>
     </div>
-
     <script>
+        $(document).ready(function() {
+            get_data_pasien()
+        })
         $(function() {
             $('#tabelpasien').DataTable({
                 "paging": true,
@@ -233,5 +343,94 @@
             })
 
         })
+
+        function get_data_pasien() {
+            $.ajax({
+                type: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                url: '<?= route('ambil_data_pasien') ?>',
+                success: function(response) {
+                    $('.v_tabel_pasien').html(response);
+                    // $('#daftarpxumum').attr('disabled', true);
+                }
+            });
+        }
+        $(document).ready(function() {
+            $('#provinsi').autocomplete({
+                source: "<?= route('cariprovinsi') ?>",
+                select: function(event, ui) {
+                    $('[id="provinsi"]').val(ui.item.label);
+                    $('[id="kodeprovinsi"]').val(ui.item.kode);
+                }
+            });
+        });
+        $(document).ready(function() {
+            $('#kabupaten').autocomplete({
+                source: "<?= route('carikabupaten') ?>",
+                select: function(event, ui) {
+                    $('[id="kabupaten"]').val(ui.item.label);
+                    $('[id="kodekabupaten"]').val(ui.item.kode);
+                }
+            });
+        });
+        $(document).ready(function() {
+            $('#kecamatan').autocomplete({
+                source: "<?= route('carikecamatan') ?>",
+                select: function(event, ui) {
+                    $('[id="kecamatan"]').val(ui.item.label);
+                    $('[id="kodekecamatan"]').val(ui.item.kode);
+                }
+            });
+        });
+        $(document).ready(function() {
+            $('#desa').autocomplete({
+                source: "<?= route('caridesa') ?>",
+                select: function(event, ui) {
+                    $('[id="desa"]').val(ui.item.label);
+                    $('[id="kodedesa"]').val(ui.item.kode);
+                }
+            });
+        });
+
+        function simpanpasienbaru() {
+            var data = $('.form-pasien-baru').serializeArray();
+            $.ajax({
+                async: true,
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    data: JSON.stringify(data),
+                },
+                url: '<?= route('simpanpasienbaru') ?>',
+                error: function(data) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ooops....',
+                        text: 'Sepertinya ada masalah......',
+                        footer: ''
+                    })
+                },
+                success: function(data) {
+                    if (data.kode == 500) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oopss...',
+                            text: data.message,
+                            footer: ''
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'OK',
+                            text: data.message,
+                            footer: ''
+                        })
+                    }
+                }
+            });
+        }
     </script>
 @endsection
