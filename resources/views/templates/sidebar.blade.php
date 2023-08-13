@@ -64,37 +64,47 @@
                     <a href="{{ route('master')}}" class="nav-link @if($menu == 'MASTER' ) active @endif">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
-                            Dashboard 
+                            Dashboard
                         </p>
                     </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('pasien')}}" class="nav-link @if($menu == 'PASIEN' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Pasien 
+                            Pasien
                         </p>
                     </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('pegawai')}}" class="nav-link @if($menu == 'PEGAWAI' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Pegawai 
+                            Pegawai
                         </p>
                     </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('user')}}" class="nav-link @if($menu == 'USER' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Data User 
+                            Data User
                         </p>
                     </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('diagnosa')}}" class="nav-link @if($menu == 'DIAGNOSA' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Data Diagnosa 
+                            Data Diagnosa
                         </p>
                     </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('tarif')}}" class="nav-link @if($menu == 'TARIF' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Data Tarif 
+                            Data Tarif
                         </p>
                     </a>
                 </li>
