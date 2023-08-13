@@ -41,4 +41,11 @@ class MasterController extends Controller
             'menu'
         ]));
     }
+    public function tarif()
+    {
+        $menu = 'TARIF';
+        return view('adminmaster.tarif',compact([
+            'menu'
+        ]));
+    }
 }

@@ -18,6 +18,8 @@ Route::get('pasien', [MasterController::class, 'pasien'])->name('pasien');
 Route::get('pegawai', [MasterController::class, 'pegawai'])->name('pegawai');
 Route::get('user', [MasterController::class, 'user'])->name('user');
 Route::get('diagnosa', [MasterController::class, 'diagnosa'])->name('diagnosa');
+Route::get('tarif', [MasterController::class, 'tarif'])->name('tarif');
+
 
 
 

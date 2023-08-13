@@ -3,13 +3,13 @@
 
 <div class="card-body">
     <div class="row" style="align-content: 10px;">
-        <h4 class="col-md-2">Data Diagnosa Klinik</h4>
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#formtambahdiagnosa">Tambah Diagnosa</button>
-        <div class="modal  col-md-12" id="formtambahdiagnosa" aria-labelledby="formtambahdiagnosaLabel" aria-hidden="true">
+        <h4 class="col-md-2">Data Tarif Klinik</h4>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#formtambahtarif">Tambah Tarif</button>
+        <div class="modal  col-md-12" id="formtambahtarif" aria-labelledby="formtambahtarifLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="formtambahdiagnosaLabel">Daftarkan Diagnosa Baru </h5>
+                        <h5 class="modal-title" id="formtambahtarifLabel">Daftarkan Tarif Baru </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -17,9 +17,15 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group row">
-                                <label for="inputName" class="col-sm-2 col-form-label">Nama Diagnosa</label>
+                                <label for="inputName" class="col-sm-2 col-form-label">Nama Tarif</label>
                                 <div class="col-sm-12">
-                                    <input type="email" class="form-control" id="inputName" placeholder="nama diagnosa">
+                                    <input type="email" class="form-control" id="inputName" placeholder="nama tarif">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail" class="col-sm-2 col-form-label">Harga</label>
+                                <div class="col-sm-12">
+                                    <input type="email" class="form-control" id="inputEmail" placeholder="harga">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -47,16 +53,16 @@
         <div class="col-md-12">
             <table id="datadiagnosa" class="table  table-sm text-sm table-bordered table-hover">
                 <thead class="bg-light">
-                    <th>No</th>
-                    <th>Nama Diagnosa</th>
+                    <th>Nama Tarif</th>
+                    <th>Harga</th>
                     <th>Keterangan</th>
                     <th style="width: 15%;">action</th>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>1</td>
-                        <td>Anemia</td>
-                        <td>Solusi Anemia</td>
+                        <td>Injeksi</td>
+                        <td>Rp. 100.000</td>
+                        <td>injeksi antibiotik</td>
                         <td class="center">
 
                             <a class=" btn btn-info btn-sm " href="#">
@@ -69,9 +75,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>2</td>
-                        <td>DM</td>
-                        <td>Solusi DM</td>
+                        <td>Sunat</td>
+                        <td>Rp. 150.000</td>
+                        <td>sudah dengan paket obat</td>
                         <td class="center">
 
 
@@ -84,9 +90,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>3</td>
-                        <td>Vertigo</td>
-                        <td>32</td>
+                        <td>Pemeriksaan Dokter</td>
+                        <td>Rp. 100.000</td>
+                        <td>Pemeriksaan yang biasa dilakukan</td>
                         <td class="center">
 
 
@@ -99,9 +105,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>4</td>
-                        <td>Demam</td>
-                        <td>Solusi Demam</td>
+                        <td>USG</td>
+                        <td>Rp. 150.000</td>
+                        <td>cek perut</td>
                         <td class="center">
 
 
@@ -114,9 +120,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>5</td>
-                        <td>Flue</td>
-                        <td>Solusi Flue</td>
+                    <td>gula darah</td>
+                        <td>Rp. 20.000</td>
+                        <td>cek gula darah</td>
                         <td class="center">
 
 
@@ -148,7 +154,7 @@
         });
     });
 
-    $('#formtambahdiagnosa').on('show.bs.modal', function(event) {
+    $('#formtambahtarif').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var recipient = button.data('isi')
         var modal = $(this)
