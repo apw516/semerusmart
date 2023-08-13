@@ -13,4 +13,32 @@ class MasterController extends Controller
             'menu'
         ]));
     }
+    public function pasien()
+    {
+        $menu = 'PASIEN';
+        return view('adminmaster.pasien',compact([
+            'menu'
+        ]));
+    }
+    public function pegawai()
+    {
+        $menu = 'PEGAWAI';
+        return view('adminmaster.pegawai',compact([
+            'menu'
+        ]));
+    }
+    public function user()
+    {
+        $menu = 'USER';
+        return view('adminmaster.user',compact([
+            'menu'
+        ]));
+    }
+    public function diagnosa()
+    {
+        $menu = 'DIAGNOSA';
+        return view('adminmaster.diagnosa',compact([
+            'menu'
+        ]));
+    }
 }

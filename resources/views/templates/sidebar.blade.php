@@ -52,10 +52,10 @@
                 </li>
                 <li class="nav-header">KEUANGAN</li>
                 <li class="nav-item">
-                    <a href="" class="nav-link @if($menu == 'masterpasien' ) active @endif">
+                    <a href="{{ route('kasir') }}" class="nav-link @if($menu == 'KASIR' ) active @endif">
                         <i class="nav-icon fas fa-archive"></i>
                         <p>
-                            Menu 1
+                            KASIR
                         </p>
                     </a>
                 </li>
@@ -64,7 +64,31 @@
                     <a href="{{ route('master')}}" class="nav-link @if($menu == 'MASTER' ) active @endif">
                         <i class="nav-icon fas fa-archive"></i>
                         <p>
-                            Master 
+                            Dashboard 
+                        </p>
+                    </a>
+                    <a href="{{ route('pasien')}}" class="nav-link @if($menu == 'PASIEN' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Pasien 
+                        </p>
+                    </a>
+                    <a href="{{ route('pegawai')}}" class="nav-link @if($menu == 'PEGAWAI' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Pegawai 
+                        </p>
+                    </a>
+                    <a href="{{ route('user')}}" class="nav-link @if($menu == 'USER' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Data User 
+                        </p>
+                    </a>
+                    <a href="{{ route('diagnosa')}}" class="nav-link @if($menu == 'DIAGNOSA' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Data Diagnosa 
                         </p>
                     </a>
                 </li>
