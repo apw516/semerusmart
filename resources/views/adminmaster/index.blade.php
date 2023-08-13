@@ -1,49 +1,27 @@
 @extends('templates.main')
 @section('container')
 
+<form id="formD" name="formD" action="" method="post" enctype="multipart/form-data">
+    Harga Satuan: <br>
+    <input type="text" name="harga" onkeyup="OnChange(this.value)" onKeyPress="return isNumberKey(event)"><br>
+    Jumlah:<br>
+    <input type="text" name="jmlpsn" onkeyup="OnChange(this.value)" onKeyPress="return isNumberKey(event)"><br>
+    Harga keseluruhan : <br>
+    <input type="text" name="txtDisplay" value="" readonly="readonly">
+</form>
 
-<div class="row" style="margin-top: 30px;">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="{{ route('pasien')}}" data-toggle="tab">Data Pasien</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#pegawai" data-toggle="tab">Data Pegawai</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#user" data-toggle="tab">Data User</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#diagnosa" data-toggle="tab">Data Diagnosa</a></li>
 
-                </ul>
-            </div><!-- /.card-header -->
-            <div class="card-body">
-                <div class="tab-content">
-                    <div class="active tab-pane" id="pasien">
-                       
-                    </div>
-                    <!-- /.tab-pane -->
-                    <div class="tab-pane" id="pegawai">
-                       
-                    </div>
-                    <!-- /.tab-pane -->
+<script type="text/javascript" language="Javascript">
+    hargasatuan = document.formD.harga.value;
+    document.formD.txtDisplay.value = hargasatuan;
+    jumlah = document.formD.jmlpsn.value;
+    document.formD.txtDisplay.value = jumlah;
 
-                    <div class="tab-pane" id="user">
-                      
-                    </div>
-                    <!-- /.tab-pane -->
-                    <div class="tab-pane" id="diagnosa">
-                        
-                    </div>
-                    <!-- /.tab-pane -->
-
-                </div>
-                <!-- /.tab-content -->
-            </div><!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-    </div>
-</div>
-
-<script>
-   
+    function OnChange(value) {
+        hargasatuan = document.formD.harga.value;
+        jumlah = document.formD.jmlpsn.value;
+        total = hargasatuan * jumlah;
+        document.formD.txtDisplay.value = total;
+    }
 </script>
-
 @endsection

@@ -119,7 +119,7 @@
             </table>
         </div>
         <div class="col-md-6">
-            <form id="add_name">
+            <form id="add_name" name="add_name">
                 <div class="form-group">
                     <table class="table table-bordered" id="dynamic_field">
                         <thead class="bg-info">
@@ -131,32 +131,33 @@
                         <tr>
                             <td>
                                 <div class="row">
-                                    <div class="col-2">
+                                    <div class="col-5">
                                         <label for="inputName">Nama </label>
                                         <input type="text" name="nama" class="form-control name_list" placeholder="Input Nama">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <label for="inputName">Jumlah </label>
-                                        <input type="text" name="jumlah" class="form-control name_list" placeholder="Input Jumlah">
+                                        <input type="text" name="jumlah"  class="form-control name_list" placeholder="Input Jumlah">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <label for="inputName">Disc </label>
                                         <input type="text" name="disc" class="form-control name_list" placeholder="Input Disc">
                                     </div>
                                     <div class="col-2">
                                         <label for="inputName">Harga </label>
-                                        <input type="text" name="harga" class="form-control name_list" placeholder="Input Harga">
+                                        <input type="text" name="harga"  class="form-control name_list" placeholder="Input Harga">
                                     </div>
 
                                 </div>
                             </td>
                             <td>
-                                <button type="button" id="add" class="btn btn-success">Add More
+                                <button type="button" id="add" class="btn btn-success">+
                                 </button>
                             </td>
                         </tr>
                     </table>
                     <button class="btn btn-primary" id="submit">Submit</button>
+
                 </div>
             </form>
         </div>
@@ -186,25 +187,24 @@
 					<tr id="row${i}">
 						<td>
                         <div class="row">
-                                            <div class="col-2">
-                                                <label for="inputName">Nama </label>
-                                                <input type="text" name="nama" class="form-control name_list" placeholder="Input Nama">
-                                            </div>
-                                            <div class="col-3">
-                                                <label for="inputName">Jumlah </label>
-                                                <input type="text" name="jumlah" class="form-control name_list" placeholder="Input Jumlah">
-                                            </div>
-                                            <div class="col-3">
-                                                <label for="inputName">Disc </label>
-                                                <input type="text" name="disc" class="form-control name_list" placeholder="Input Disc">
-                                            </div>
-                                            <div class="col-2">
-                                                <label for="inputName">Harga </label>
-                                                <input type="text" name="harga" class="form-control name_list" placeholder="Input Harga">
-                                            </div>
-                                            
-                                        </div>
-						</td>
+                                    <div class="col-5">
+                                        <label for="inputName">Nama </label>
+                                        <input type="text" name="nama" class="form-control name_list" placeholder="Input Nama">
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="inputName">Jumlah </label>
+                                        <input type="text" name="jumlah"  class="form-control name_list" placeholder="Input Jumlah">
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="inputName">Disc </label>
+                                        <input type="text" name="disc" class="form-control name_list" placeholder="Input Disc">
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="inputName">Harga </label>
+                                        <input type="text" name="harga"  class="form-control name_list" placeholder="Input Harga">
+                                    </div>
+
+                                </div>
 						<td>
 							<button type="button" id="${i}" class="btn btn-danger btn-remove">X
 							</button>
@@ -276,7 +276,8 @@
         $("#add").on("click", app.addRow)
         $(document).on("click", ".btn-remove", app.remove)
         $("#submit").on("click", app.insertData)
-    })
+    });
+  
 </script>
 
 @endsection
