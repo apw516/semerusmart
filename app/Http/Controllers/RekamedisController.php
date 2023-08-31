@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\mt_pasien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -31,7 +32,7 @@ class RekamedisController extends Controller
         ]));
     }
     public function CariProvinsi(Request $request){
-        $result = DB::table('mt_lokasi_provinces')->where('name', 'LIKE', '%' . $request['term'] . '%')->get();
+        $result = DB::table('mt_lokasi_provinces')->where('name', 'LIKE', '%' . $request['prov'] . '%')->get();
         if (count($result) > 0) {
             foreach ($result as $row)
                 $arr_result[] = array(
@@ -42,7 +43,8 @@ class RekamedisController extends Controller
         }
     }
     public function CariKabupaten(Request $request){
-        $result = DB::table('mt_lokasi_regencies')->where('name', 'LIKE', '%' . $request['term'] . '%')->get();
+        // dd($request->prov);
+        $result = DB::table('mt_lokasi_regencies')->where('name', 'LIKE', '%' . $request['kab'] . '%')->where('province_id', '=', $request->prov)->get();
         if (count($result) > 0) {
             foreach ($result as $row)
                 $arr_result[] = array(
@@ -53,7 +55,7 @@ class RekamedisController extends Controller
         }
     }
     public function CariKecamatan(Request $request){
-        $result = DB::table('mt_lokasi_districts')->where('name', 'LIKE', '%' . $request['term'] . '%')->get();
+        $result = DB::table('mt_lokasi_districts')->where('name', 'LIKE', '%' . $request['kec'] . '%')->where('regency_id', '=', $request->kab)->get();
         if (count($result) > 0) {
             foreach ($result as $row)
                 $arr_result[] = array(
@@ -64,7 +66,7 @@ class RekamedisController extends Controller
         }
     }
     public function CariDesa(Request $request){
-        $result = DB::table('mt_lokasi_villages')->where('name', 'LIKE', '%' . $request['term'] . '%')->get();
+        $result = DB::table('mt_lokasi_villages')->where('name', 'LIKE', '%' . $request['des'] . '%')->where('district_id', '=', $request->kec)->get();
         if (count($result) > 0) {
             foreach ($result as $row)
                 $arr_result[] = array(
@@ -83,7 +85,7 @@ class RekamedisController extends Controller
             $dataSet[$index] = $value;
         }
         $data_pasien = [
-            'no_rm' => '123',
+            'no_rm' => $this->get_rm(),
             'nik' =>$dataSet['nik'],
             'no_asuransi' =>$dataSet['nomorasuransi'] ,
             'nama_px' => $dataSet['namapx'],
@@ -100,6 +102,25 @@ class RekamedisController extends Controller
             'pendidikan' =>$dataSet['pendidikan'] ,
             'status_perkawinan' => $dataSet['statusperkawinan'],
         ];
-        dd($data_pasien);
+        mt_pasien::create($data_pasien);
+        $data = [
+            'kode' => 200,
+            'message' => 'Data berhasil disimpan'
+        ];
+        echo json_encode($data);
+    }
+    public function get_rm()
+    {
+        $y = DB::select('SELECT MAX(RIGHT(no_rm,6)) AS kd_max FROM mt_pasien');
+        if (count($y) > 0) {
+            foreach ($y as $k) {
+                $tmp = ((int) $k->kd_max) + 1;
+                $kd = sprintf("%06s", $tmp);
+            }
+        } else {
+            $kd = "0001";
+        }
+        date_default_timezone_set('Asia/Jakarta');
+        return date('y') . $kd;
     }
 }

@@ -359,7 +359,12 @@
         }
         $(document).ready(function() {
             $('#provinsi').autocomplete({
-                source: "<?= route('cariprovinsi') ?>",
+                source: function(request, response) {
+                    $.getJSON("<?= route('cariprovinsi') ?>", {
+                            prov: $('#provinsi').val()
+                        },
+                        response);
+                },
                 select: function(event, ui) {
                     $('[id="provinsi"]').val(ui.item.label);
                     $('[id="kodeprovinsi"]').val(ui.item.kode);
@@ -368,7 +373,13 @@
         });
         $(document).ready(function() {
             $('#kabupaten').autocomplete({
-                source: "<?= route('carikabupaten') ?>",
+                source: function(request, response) {
+                    $.getJSON("<?= route('carikabupaten') ?>", {
+                            kab: $('#kabupaten').val(),
+                            prov : $('#kodeprovinsi').val()
+                        },
+                        response);
+                },
                 select: function(event, ui) {
                     $('[id="kabupaten"]').val(ui.item.label);
                     $('[id="kodekabupaten"]').val(ui.item.kode);
@@ -377,7 +388,13 @@
         });
         $(document).ready(function() {
             $('#kecamatan').autocomplete({
-                source: "<?= route('carikecamatan') ?>",
+                source: function(request, response) {
+                    $.getJSON("<?= route('carikecamatan') ?>", {
+                            kec: $('#kecamatan').val(),
+                            kab : $('#kodekabupaten').val()
+                        },
+                        response);
+                },
                 select: function(event, ui) {
                     $('[id="kecamatan"]').val(ui.item.label);
                     $('[id="kodekecamatan"]').val(ui.item.kode);
@@ -386,7 +403,13 @@
         });
         $(document).ready(function() {
             $('#desa').autocomplete({
-                source: "<?= route('caridesa') ?>",
+                source: function(request, response) {
+                    $.getJSON("<?= route('caridesa') ?>", {
+                            des: $('#desa').val(),
+                            kec : $('#kodekecamatan').val()
+                        },
+                        response);
+                },
                 select: function(event, ui) {
                     $('[id="desa"]').val(ui.item.label);
                     $('[id="kodedesa"]').val(ui.item.kode);
@@ -428,6 +451,7 @@
                             text: data.message,
                             footer: ''
                         })
+                        location.reload()
                     }
                 }
             });
