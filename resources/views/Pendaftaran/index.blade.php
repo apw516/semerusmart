@@ -44,47 +44,9 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h5>Data Antrian Pasien</h5>
-                    <table id="tabelantrian" class="table table-sm table-bordered table-hover">
-                        <thead class="bg-warning">
-                            <th>Nomor Antrian</th>
-                            <th>Nomor RM</th>
-                            <th>Nama Pasien</th>
-                            <th>Status</th>
-                        </thead>
-                        <tbody>
-                            <tr class="panggilantrian">
-                                <td>A1</td>
-                                <td>123</td>
-                                <td>DAMAR LINTANG</td>
-                                <td>Dalam antrian</td>
-                            </tr>
-                            <tr class="panggilantrian">
-                                <td>A2</td>
-                                <td>123</td>
-                                <td>DAMAR LINTANG</td>
-                                <td>Dalam antrian</td>
-                            </tr>
-                            <tr class="panggilantrian">
-                                <td>A3</td>
-                                <td>123</td>
-                                <td>DAMAR LINTANG</td>
-                                <td>Dalam antrian</td>
-                            </tr>
-                            <tr class="panggilantrian">
-                                <td>A4</td>
-                                <td>123</td>
-                                <td>DAMAR LINTANG</td>
-                                <td>Dalam antrian</td>
-                            </tr>
-                            <tr class="panggilantrian">
-                                <td>A5</td>
-                                <td>123</td>
-                                <td>DAMAR LINTANG</td>
-                                <td>Dalam antrian</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="v_tabel_antrian">
+
+                    </div>
                 </div>
             </div>
             <div class="row mt-4">
@@ -98,15 +60,9 @@
                         <button type="submit" class="btn btn-primary mb-2"><i class="bi bi-search mr-1"></i>Riwayat
                             Pendaftaran</button>
                     </form>
-                    <table id="tabelriwayatpendaftaran" class="table table-sm table-bordered table-hover mt-3">
-                        <thead class="bg-dark">
-                            <th>Tgl Masuk</th>
-                            <th>Nomor RM</th>
-                            <th>Nama Pasien</th>
-                            <th>Nama Dokter</th>
-                            <th>Status Kunjungan</th>
-                        </thead>
-                    </table>
+                    <div class="VRP">
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,14 +87,14 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">NIK</label>
                                     <input type="email" class="form-control" id="nik" name="nik"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp" placeholder="Nomor identitas pasien ( KTP / SIM )">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nomor Asuransi</label>
                                     <input type="email" class="form-control" id="nomorasuransi" name="nomorasuransi"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp" placeholder="Nomor Asuransi / Nomor Bpjs ...">
                                 </div>
                             </div>
                         </div>
@@ -147,7 +103,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nama Pasien</label>
                                     <input type="email" class="form-control" id="namapx" name="namapx"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp" placeholder="Nama Pasien ...">
                                 </div>
                             </div>
                         </div>
@@ -166,7 +122,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Tempat Lahir</label>
                                     <input type="text" class="form-control" id="tempatlahir" name="tempatlahir"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp" placeholder="Silahkan isi kota tempat lahir pasien ...">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -182,6 +138,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Agama</label>
                                     <select class="form-control" id="agama" name="agama">
+                                        <option value="">Silahkan Pilih</option>
                                         @foreach ($agama as $a)
                                             <option value="{{ $a->ID }}">{{ $a->agama }}</option>
                                         @endforeach
@@ -192,6 +149,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Status Perkawinan</label>
                                     <select class="form-control" id="statusperkawinan" name="statusperkawinan">
+                                        <option value="">Silahkan Pilih</option>
                                         @foreach ($status_perkawinan as $sk)
                                             <option value="{{ $sk->ID }}">{{ $sk->status_kawin }}</option>
                                         @endforeach
@@ -202,6 +160,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Pendidikan</label>
                                     <select class="form-control" id="pendidikan" name="pendidikan">
+                                        <option value="">Silahkan Pilih</option>
                                         @foreach ($pendidikan as $p)
                                             <option value="{{ $p->ID }}">{{ $p->pendidikan }}</option>
                                         @endforeach
@@ -212,6 +171,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Pekerjaan</label>
                                     <select class="form-control" id="pekerjaan" name="pekerjaan">
+                                        <option value="">Silahkan Pilih</option>
                                         @foreach ($pekerjaan as $pj)
                                             <option value="{{ $pj->ID }}">{{ $pj->pekerjaan }}</option>
                                         @endforeach
@@ -224,7 +184,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Provinsi</label>
                                     <input type="text" class="form-control" id="provinsi" name="provinsi"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp" placeholder="Cari Provinisi ...">
                                     <input hidden type="text" class="form-control" id="kodeprovinsi"
                                         name="kodeprovinsi" aria-describedby="emailHelp">
                                 </div>
@@ -233,7 +193,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Kabupaten</label>
                                     <input type="text" class="form-control" id="kabupaten" name="kabupaten"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp"  placeholder="Cari Kabupaten ...">
                                     <input hidden type="text" class="form-control" id="kodekabupaten"
                                         name="kodekabupaten" aria-describedby="emailHelp">
                                 </div>
@@ -242,7 +202,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Kecamatan</label>
                                     <input type="text" class="form-control" id="kecamatan" name="kecamatan"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp"  placeholder="Cari Kecamatan ...">
                                     <input hidden type="text" class="form-control" id="kodekecamatan"
                                         name="kodekecamatan" aria-describedby="emailHelp">
                                 </div>
@@ -251,7 +211,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Desa</label>
                                     <input type="text" class="form-control" id="desa" name="desa"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp"  placeholder="Cari Desa ...">
                                     <input hidden type="text" class="form-control" id="kodedesa" name="kodedesa"
                                         aria-describedby="emailHelp">
                                 </div>
@@ -281,11 +241,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <div class="formnya_pendaftaran">
+
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="bi bi-x mr-1"></i>Close</button>
+                <button type="button" class="btn btn-primary" onclick="simpan_pendaftaran()"><i
+                        class="bi bi-save mr-1"></i> Simpan</button>
                 </div>
             </div>
         </div>
@@ -293,6 +257,8 @@
     <script>
         $(document).ready(function() {
             get_data_pasien()
+            get_antrian()
+            get_riwayat_daftar()
         })
         $(function() {
             $('#tabelpasien').DataTable({
@@ -327,23 +293,6 @@
                 "responsive": true,
             });
         });
-        $('#tabelantrian').on('click', '.panggilantrian', function() {
-            Swal.fire({
-                title: 'Berhasil Panggil Antrian ?',
-                text: "Nomor Antrian A1",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Berhasil'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                }
-            })
-
-        })
-
         function get_data_pasien() {
             $.ajax({
                 type: 'post',
@@ -353,6 +302,32 @@
                 url: '<?= route('ambil_data_pasien') ?>',
                 success: function(response) {
                     $('.v_tabel_pasien').html(response);
+                    // $('#daftarpxumum').attr('disabled', true);
+                }
+            });
+        }
+        function get_antrian() {
+            $.ajax({
+                type: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                url: '<?= route('ambil_data_antrian') ?>',
+                success: function(response) {
+                    $('.v_tabel_antrian').html(response);
+                    // $('#daftarpxumum').attr('disabled', true);
+                }
+            });
+        }
+        function get_riwayat_daftar() {
+            $.ajax({
+                type: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                url: '<?= route('ambil_riwayat_daftar') ?>',
+                success: function(response) {
+                    $('.VRP').html(response);
                     // $('#daftarpxumum').attr('disabled', true);
                 }
             });
@@ -428,6 +403,46 @@
                     data: JSON.stringify(data),
                 },
                 url: '<?= route('simpanpasienbaru') ?>',
+                error: function(data) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ooops....',
+                        text: 'Sepertinya ada masalah......',
+                        footer: ''
+                    })
+                },
+                success: function(data) {
+                    if (data.kode == 500) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oopss...',
+                            text: data.message,
+                            footer: ''
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'OK',
+                            text: data.message,
+                            footer: ''
+                        })
+                        location.reload()
+                    }
+                }
+            });
+        }
+        function simpan_pendaftaran()
+        {
+            var data = $('.formutama_daftar').serializeArray();
+            $.ajax({
+                async: true,
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    data: JSON.stringify(data),
+                },
+                url: '<?= route('simpan_pendaftaran') ?>',
                 error: function(data) {
                     Swal.fire({
                         icon: 'error',
