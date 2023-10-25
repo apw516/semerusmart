@@ -10,19 +10,17 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    const UPDATED_AT = null;
+    const CREATED_AT = null;
     use HasApiTokens, HasFactory, Notifiable;
+    protected $table='mt_user';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
+    protected $guarded = ['id'];
     /**
      * The attributes that should be hidden for serialization.
      *

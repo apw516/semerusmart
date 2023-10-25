@@ -11,7 +11,7 @@
                    <td>{{ $p->no_rm }}</td>
                    <td>{{ $p->nik }}</td>
                    <td>{{ $p->nama_px }}</td>
-                   <td></td>
+                   <td>{{ $p->alamatnya}}</td>
                </tr>
            @endforeach
        </tbody>
@@ -30,6 +30,8 @@
        });
        $('#tabelpasien').on('click', '.pilihpasien', function() {
             rm = $(this).attr('norm')
+            spinner = $('#loader2');
+            spinner.show();
             $.ajax({
                 type: 'post',
                 data: {
@@ -39,6 +41,7 @@
                 url: '<?= route('ambil_form_pendaftaran') ?>',
                 success: function(response) {
                     $('.formnya_pendaftaran').html(response);
+                    spinner.hide()
                     // $('#daftarpxumum').attr('disabled', true);
                 }
             });

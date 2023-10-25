@@ -38,8 +38,8 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Alamat</label>
-        <textarea readonly type="text" class="form-control" id="alamat" name="alamat" value="{{ $dtpx[0]->no_rm }}"
-            aria-describedby="emailHelp"></textarea>
+        <textarea readonly type="text" class="form-control" id="alamat" name="alamat"
+            aria-describedby="emailHelp">{{ $dtpx[0]->alamatnya }}</textarea>
     </div>
     <div class="row">
         <div class="col-md-6">
