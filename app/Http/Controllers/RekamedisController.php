@@ -29,6 +29,13 @@ class RekamedisController extends Controller
             'now'
         ]));
     }
+    public function riwayatpendaftaran()
+    {
+        $menu = 'Riwayat Pendaftaran';
+        return view('Pendaftaran.riwayatpendaftaran', compact([
+            'menu'
+        ]));
+    }
     public function AmbilDataPasien()
     {
         $pasien = DB::select('select *,fc_alamat(no_rm) as alamatnya from mt_pasien where date(tgl_entry) = curdate()');
@@ -91,8 +98,12 @@ class RekamedisController extends Controller
     public function AmbilFormPendaftaran(Request $request)
     {
         $dtpx = DB::select('select *,fc_alamat(no_rm) as alamatnya from mt_pasien where no_rm = ?', [$request->rm]);
+        $unit = DB::select('select * from mt_unit');
+        $dokter = DB::select('select * from mt_paramedis');
         return view('Pendaftaran.form_pendaftaran', compact([
-            'dtpx'
+            'dtpx',
+            'unit',
+            'dokter'
         ]));
     }
     public function CariProvinsi(Request $request)

@@ -1,314 +1,136 @@
 @extends('templates.main')
 @section('container')
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Master Karyawan</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Master Karyawan</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
-<div class="card-body">
-    <div class="row" style="align-content: 10px;">
-        <h4 class="col-md-2">Data Pegawai Klinik</h4>
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#formtambahdokter">Tambah Pegawai</button>
-        <div class="modal  col-md-12" id="formtambahdokter" aria-labelledby="formtambahdokterLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="formtambahdokterLabel">Daftarkan Pasien Baru </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group row">
-                                <label for="inputName" class="col-sm-2 col-form-label">NIK</label>
-                                <div class="col-sm-12">
-                                    <input type="email" class="form-control" id="inputName" placeholder="NIK">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputEmail" class="col-sm-2 col-form-label">NAMA</label>
-                                <div class="col-sm-12">
-                                    <input type="email" class="form-control" id="inputEmail" placeholder="Nama Pegawai">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputName2" class="col-sm-2 col-form-label">Usia</label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" id="inputName2" placeholder="Usia">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputExperience" class="col-sm-2 col-form-label">Alamat</label>
-                                <div class="col-sm-12">
-                                    <textarea class="form-control" id="inputExperience" placeholder="alamat"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputSkills" class="col-sm-2 col-form-label">No. HP</label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" id="inputSkills" placeholder="No. HP">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class=" col-sm-12">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class=" col-sm-12">
-                                    <button type="submit" class="btn btn-danger">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                    </div>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <button class="btn btn-success" data-toggle="modal" data-target="#addkary"><i
+                    class="bi bi-person-fill-add mr-2"></i> Karyawan</button>
+            <div class="v_master_pegawai">
+
+            </div>
+        </div>
+    </section>
+    <!-- Modal -->
+    <div class="modal fade" id="addkary" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Tambah Karyawan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form_add_kary">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="namakary" name="namakary"
+                                placeholder="Masukan nama lengkap ditambah gelar jika ada ... ">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">SIP</label>
+                            <input type="text" class="form-control" id="sip" name="sip"
+                                aria-describedby="emailHelp">
+                            <small id="emailHelp" class="form-text text-muted">Diisi jika dokter ...</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Unit</label>
+                            <select class="form-control" id="unit" name="unit">
+                                <option value="">Silahkan Pilih</option>
+                                @foreach ($unit as $u)
+                                    <option value="{{ $u->kode_unit }}">{{ $u->nama_unit }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="simpankary()">Simpan</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row center" style="align-content:center; margin-top:15px">
-        <div class="col-sm-3">
-            <input type="text" class="form-control" placeholder="Nama Pegawai">
-        </div>
-        <div class="col-sm-3">
-            <input type="text" class="form-control" placeholder="NIP">
-        </div>
-        <div class="col-sm-3">
-            <input type="text" class="form-control" placeholder="Alamat">
-        </div>
-        <div class="col-sm-2">
-            <input type="date" class="form-control" id="tanggal_kunjungan" autocomplete="off" data-language="en" data-date-format="yyyy-mm-dd" placeholder="Tanggal">
-        </div>
 
-        <div>
-            <button type="submit" class="btn btn-primary" onclick="lihatpasienex()"> <i class="bi bi-search-heart"></i> </button>
-        </div>
-    </div>
-    <div class="row" style="align-content: center; margin-top: 20px">
-        <div class="col-md-12">
-            <table id="datapegawai" class=" table table-striped projects">
-                <thead>
-                    <tr>
-                        <th style="width: 1%">
-                            NIP
-                        </th>
-                        <th style="width: 20%">
-                            Nama Pegawai
-                        </th>
-                        <th style="width: 30%">
-                            Jabatan
-                        </th>
-                        <th>
-                            Alamat
-                        </th>
-                        <th style="width: 8%" class="text-center">
-                            Status
-                        </th>
-                        <th style="width: 20%">
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            6789098
-                        </td>
-                        <td>
-                            David Bayu
+    <script>
+        $(document).ready(function() {
+            get_master_kary()
+        })
 
-                        </td>
-                        <td>
-                            CEO
-                        </td>
-                        <td class="project_progress">
-                            jln. Raya Pakusamben Wetan no. 075
-                        </td>
-                        <td class="project-state">
-                            <span class="badge badge-success">Aktif</span>
-                        </td>
-                        <td class="project-actions text-right">
-                            <a class="btn btn-primary btn-sm" href="#">
-                                <i class="fas fa-folder">
-                                </i>
-                                View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                                <i class="fas fa-pencil-alt">
-                                </i>
-                                Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                                <i class="fas fa-trash">
-                                </i>
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            6789099
-                        </td>
-                        <td>
-                            Adinda Thomas
+        function get_master_kary() {
+            $.ajax({
+                type: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                url: '<?= route('ambil_master_kary') ?>',
+                success: function(response) {
+                    $('.v_master_pegawai').html(response);
+                }
+            });
+        }
 
-                        </td>
-                        <td>
-                            Manager Klinik
-                        </td>
-                        <td class="project_progress">
-                            jln. Raya Kudukeras Wetan no. 001
-                        </td>
-                        <td class="project-state">
-                            <span class="badge badge-success">Aktif</span>
-                        </td>
-                        <td class="project-actions text-right">
-                            <a class="btn btn-primary btn-sm" href="#">
-                                <i class="fas fa-folder">
-                                </i>
-                                View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                                <i class="fas fa-pencil-alt">
-                                </i>
-                                Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                                <i class="fas fa-trash">
-                                </i>
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            6789080
-                        </td>
-                        <td>
-                            jihan Utami
-                        </td>
-                        <td>
-                            Admin
-                        </td>
-                        <td class="project_progress">
-                            jln. Raya Babakan Wetan no. 001
-                        </td>
-                        <td class="project-state">
-                            <span class="badge badge-danger">Tidak Aktif</span>
-                        </td>
-                        <td class="project-actions text-right">
-                            <a class="btn btn-primary btn-sm" href="#">
-                                <i class="fas fa-folder">
-                                </i>
-                                View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                                <i class="fas fa-pencil-alt">
-                                </i>
-                                Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                                <i class="fas fa-trash">
-                                </i>
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            6789010
-                        </td>
-                        <td>
-                            Adji santoso Utama
-                        </td>
-                        <td>
-                            Perawat
-                        </td>
-                        <td class="project_progress">
-                            jln. Raya Babakan Gebang no. 021
-                        </td>
-                        <td class="project-state">
-                            <span class="badge badge-danger">Tidak Aktif</span>
-                        </td>
-                        <td class="project-actions text-right">
-                            <a class="btn btn-primary btn-sm" href="#">
-                                <i class="fas fa-folder">
-                                </i>
-                                View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                                <i class="fas fa-pencil-alt">
-                                </i>
-                                Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                                <i class="fas fa-trash">
-                                </i>
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            6789129
-                        </td>
-                        <td>
-                            Rizqi Febriansyah
-                        </td>
-                        <td>
-                            Dokter Kelamin
-                        </td>
-                        <td class="project_progress">
-                            jln. Raya Babakan no. 005
-                        </td>
-                        <td class="project-state">
-                            <span class="badge badge-success">Aktif</span>
-                        </td>
-                        <td class="project-actions text-right">
-                            <a class="btn btn-primary btn-sm" href="#">
-                                <i class="fas fa-folder">
-                                </i>
-                                View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                                <i class="fas fa-pencil-alt">
-                                </i>
-                                Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                                <i class="fas fa-trash">
-                                </i>
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<script>
-    document.getElementById('tanggal_kunjungan').valueAsDate = new Date()
-
-     $(function() {
-        $("#datapegawai").DataTable({
-            "responsive": false,
-            "lengthChange": false,
-            "pageLength": 5,
-            "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        });
-    });
-
-    $('#formtambahdokter').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var recipient = button.data('isi')
-        var modal = $(this)
-
-        modal.find('.modal-body input').val(recipient)
-    });
-</script>
+        function simpankary() {
+            var data = $('.form_add_kary').serializeArray();
+            spinner = $('#loader2');
+            spinner.show();
+            $.ajax({
+                async: true,
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    data: JSON.stringify(data),
+                },
+                url: '<?= route('simpankary') ?>',
+                error: function(data) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ooops....',
+                        text: 'Sepertinya ada masalah......',
+                        footer: ''
+                    })
+                    spinner.hide();
+                },
+                success: function(data) {
+                    spinner.hide();
+                    if (data.kode == 500) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oopss...',
+                            text: data.message,
+                            footer: ''
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'OK',
+                            text: data.message,
+                            footer: ''
+                        })
+                        get_master_kary()
+                    }
+                }
+            });
+        }
+    </script>
 @endsection

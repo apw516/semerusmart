@@ -20,6 +20,13 @@ class PelayananController extends Controller
             'menu'
         ]));
     }
+    public function riwayatpelayanan()
+    {
+        $menu = 'Riwayat Pelayanan';
+        return view('Pelayanan.riwayatpelayanan', compact([
+            'menu'
+        ]));
+    }
     public function AntrianErm()
     {
         $antrian = DB::select('SELECT kode_kunjungan,kode_registrasi,a.no_rm,nama_px,status_kunjungan FROM ts_kunjungan a JOIN mt_pasien b ON a.`no_rm` = b.no_rm

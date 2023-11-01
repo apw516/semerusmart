@@ -57,22 +57,27 @@
         </form>
         <div class="row">
             <div class="col-md-5">
-                <table id="tabeltindakan" class="table table-sm table-bordered table-hover">
-                    <thead class="bg-info">
-                        <th>Nama Tindakan / Obat</th>
-                        <th>Tarif</th>
-                    </thead>
-                    <tbody>
-                        @foreach ($tarif as $t)
-                            <tr class="pilihlayanan" namatindakan ="{{ $t->NAMA_TARIF }}"
-                                tarif ="{{ $t->TOTAL_TARIF_NEW }}" kodetarifheader="{{ $t->KODE_TARIF_HEADER }}"
-                                kodetarifdetail="{{ $t->KODE_TARIF_DETAIL }}" id="{{ $t->KODE_TARIF_DETAIL }}">
-                                <td>{{ $t->NAMA_TARIF }}</td>
-                                <td>IDR {{ number_format($t->TOTAL_TARIF_NEW, 2) }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="card">
+                    <div class="card-header bg-info">Pilih Tindakan</div>
+                    <div class="card-body">
+                        <table id="tabeltindakan" class="table table-sm table-bordered table-hover">
+                            <thead class="bg-info">
+                                <th>Nama Tindakan / Obat</th>
+                                <th>Tarif</th>
+                            </thead>
+                            <tbody>
+                                @foreach ($tarif as $t)
+                                    <tr class="pilihlayanan" namatindakan ="{{ $t->NAMA_TARIF }}"
+                                        tarif ="{{ $t->TOTAL_TARIF_NEW }}" kodetarifheader="{{ $t->KODE_TARIF_HEADER }}"
+                                        kodetarifdetail="{{ $t->KODE_TARIF_DETAIL }}" id="{{ $t->KODE_TARIF_DETAIL }}">
+                                        <td>{{ $t->NAMA_TARIF }}</td>
+                                        <td>IDR {{ number_format($t->TOTAL_TARIF_NEW, 2) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="col-md-7">
                 <div class="row">
@@ -98,6 +103,30 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div hidden class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header bg-danger">Pilih Obat</div>
+                    <div class="card-body">
+                        <button class="btn btn-success">+ Obat Racik</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-header bg-danger">Riwayat Resep Hari ini</div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header bg-warning">Obat Yang Dipilih</div>
+                    <div class="card-body">
+
                     </div>
                 </div>
             </div>
@@ -192,6 +221,7 @@
             "info": true,
             "autoWidth": false,
             "responsive": true,
+            "pageLength": 4
         });
     });
     $('#tabeltindakan').on('click', '.pilihlayanan', function() {

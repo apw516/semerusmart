@@ -24,10 +24,37 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link @if($menu == 'Dashboard' ) active @endif">
+                    <a href="{{ route('dashboard') }}" class="nav-link @if($menu == 'Dashboard rekamedis' ) active @endif">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Dashboard
+                            Dashboard Rekamedis
+                            {{-- <span class="right badge badge-danger">New</span> --}}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('dashboard') }}" class="nav-link @if($menu == 'Dashboard pelayanan' ) active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Dashboard Pelayanan
+                            {{-- <span class="right badge badge-danger">New</span> --}}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('dashboard') }}" class="nav-link @if($menu == 'Dashboard keuangan' ) active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Dashboard Keuangan
+                            {{-- <span class="right badge badge-danger">New</span> --}}
+                        </p>
+                    </a>
+                </li>
+                <li hidden class="nav-item">
+                    <a href="{{ route('dashboard') }}" class="nav-link @if($menu == 'Dashboard farmasi' ) active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Dashboard Farmasi
                             {{-- <span class="right badge badge-danger">New</span> --}}
                         </p>
                     </a>
@@ -41,12 +68,28 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('riwayatpendaftaran')}}" class="nav-link @if($menu == 'Riwayat Pendaftaran' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Riwayat Pendaftaran
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-header">PELAYANAN</li>
                 <li class="nav-item">
                     <a href="{{ route('ermpasien')}}" class="nav-link @if($menu == 'ERM - Pasien' ) active @endif">
                         <i class="nav-icon fas fa-archive"></i>
                         <p>
                             E-RM Pasien
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('riwayatpelayanan')}}" class="nav-link @if($menu == 'Riwayat Pelayanan' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Riwayat Pelayanan
                         </p>
                     </a>
                 </li>
@@ -59,12 +102,61 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-header">DATA MASTER</li>
                 <li class="nav-item">
+                    <a href="{{ route('laporankasir') }}" class="nav-link @if($menu == 'Laporan Pendapatan Kasir' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p class="text-sm">
+                            Laporan Pendapatan Kasir
+                        </p>
+                    </a>
+                </li>
+                <li hidden class="nav-header">FARMASI</li>
+                <li hidden class="nav-item">
+                    <a href="{{ route('layananresep') }}" class="nav-link @if($menu == 'Layanan Resep' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Layanan Resep
+                        </p>
+                    </a>
+                </li>
+                <li hidden class="nav-item">
+                    <a href="{{ route('riwayatresep') }}" class="nav-link @if($menu == 'Riwayat Resep' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Riwayat Resep
+                        </p>
+                    </a>
+                </li>
+                <li hidden class="nav-item">
+                    <a href="{{ route('stokobat') }}" class="nav-link @if($menu == 'Stok Obat' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                          Stok Obat
+                        </p>
+                    </a>
+                </li>
+                <li hidden class="nav-item">
+                    <a href="{{ route('masterobat') }}" class="nav-link @if($menu == 'Master Obat' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                           Master Obat
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">DATA MASTER</li>
+                {{-- <li class="nav-item">
                     <a href="{{ route('master')}}" class="nav-link @if($menu == 'MASTER' ) active @endif">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
                             Dashboard
+                        </p>
+                    </a>
+                </li> --}}
+                <li class="nav-item">
+                    <a href="{{ route('user')}}" class="nav-link @if($menu == 'Data User' ) active @endif">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            User
                         </p>
                     </a>
                 </li>
@@ -80,19 +172,19 @@
                     <a href="{{ route('pegawai')}}" class="nav-link @if($menu == 'PEGAWAI' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Pegawai
+                            Karyawan
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('user')}}" class="nav-link @if($menu == 'USER' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
                             Data User
                         </p>
                     </a>
-                </li>
-                <li class="nav-item">
+                </li> --}}
+                <li hidden class="nav-item">
                     <a href="{{ route('diagnosa')}}" class="nav-link @if($menu == 'DIAGNOSA' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
@@ -104,7 +196,7 @@
                     <a href="{{ route('tarif')}}" class="nav-link @if($menu == 'TARIF' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Data Tarif
+                            Tarif Pelayanan
                         </p>
                     </a>
                 </li>

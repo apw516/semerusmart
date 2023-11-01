@@ -47,7 +47,10 @@
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Tujuan</label>
                     <select class="form-control" id="tujuan" name="tujuan">
-                        <option value="1000">Poli Klinik</option>
+                        <option value="0">Poli Klinik</option>
+                        @foreach ($unit as $u)
+                        <option value="{{ $u->kode_unit }}">{{ $u->nama_unit }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -57,7 +60,10 @@
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Dokter</label>
                     <select class="form-control" id="dokter" name="dokter">
-                        <option value="DOK001">Dokter 1</option>
+                        <option value="0">Pilih Dokter</option>
+                        @foreach ($dokter as $d )
+                        <option value="{{ $d->kode_paramedis }}">{{ $d->nama_paramedis }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>

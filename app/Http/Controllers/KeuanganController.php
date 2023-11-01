@@ -20,6 +20,14 @@ class KeuanganController extends Controller
             'now'
         ]));
     }
+    public function laporankasir(){
+        $now = $this->get_date();
+        $menu = 'Laporan Pendapatan Kasir';
+        return view('keuangan.laporankasir',compact([
+            'menu',
+            'now'
+        ]));
+    }
     public function ambil_antrian_kasir(Request $request)
     {
         $now = $this->get_date();

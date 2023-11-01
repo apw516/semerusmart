@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\RekamedisController;
 use App\Http\Controllers\PelayananController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\FarmasiController;
 
 
 
@@ -20,6 +21,7 @@ Route::get('/profil', [LoginController::class, 'profilindex'])->name('profil');
 
 Route::get('/dashboard', [DashboardController::class, 'Index'])->middleware('auth')->name('dashboard');
 Route::get('pendaftaran', [RekamedisController::class, 'Index'])->middleware('auth')->name('pendaftaran');
+Route::get('riwayatpendaftaran', [RekamedisController::class, 'riwayatpendaftaran'])->middleware('auth')->name('riwayatpendaftaran');
 Route::post('ambil_data_pasien', [RekamedisController::class, 'AmbilDataPasien'])->middleware('auth')->name('ambil_data_pasien');
 Route::post('ambil_data_pasien_cari', [RekamedisController::class, 'AmbilDataPasienCari'])->middleware('auth')->name('ambil_data_pasien_cari');
 Route::post('ambil_data_antrian', [RekamedisController::class, 'AmbilAntrian'])->middleware('auth')->name('ambil_data_antrian');
@@ -37,6 +39,7 @@ Route::post('detail_pelayanan', [RekamedisController::class, 'detail_pelayanan']
 
 
 Route::get('ermpasien', [PelayananController::class, 'Index'])->middleware('auth')->name('ermpasien');
+Route::get('riwayatpelayanan', [PelayananController::class, 'riwayatpelayanan'])->middleware('auth')->name('riwayatpelayanan');
 Route::post('ambil_antrian_erm', [PelayananController::class, 'AntrianErm'])->middleware('auth')->name('ambil_antrian_erm');
 Route::post('form_erm', [PelayananController::class, 'FormErm'])->middleware('auth')->name('form_erm');
 Route::post('simpan_assesment', [PelayananController::class, 'SimpanAssesment'])->middleware('auth')->name('simpan_assesment');
@@ -48,15 +51,27 @@ Route::get('master', [MasterController::class, 'Index'])->middleware('auth')->na
 Route::get('pasien', [MasterController::class, 'pasien'])->middleware('auth')->name('pasien');
 Route::get('pegawai', [MasterController::class, 'pegawai'])->middleware('auth')->name('pegawai');
 Route::get('user', [MasterController::class, 'user'])->middleware('auth')->name('user');
+Route::post('detailuser', [MasterController::class, 'detailuser'])->middleware('auth')->name('detailuser');
+Route::post('simpaneditpasien', [MasterController::class, 'simpaneditpasien'])->middleware('auth')->name('simpaneditpasien');
+Route::post('ambil_master_kary', [MasterController::class, 'ambil_master_kary'])->middleware('auth')->name('ambil_master_kary');
+Route::post('simpankary', [MasterController::class, 'simpankary'])->middleware('auth')->name('simpankary');
+Route::post('ambil_master_user', [MasterController::class, 'ambil_master_user'])->middleware('auth')->name('ambil_master_user');
+Route::post('ambil_master_pasien', [MasterController::class, 'ambil_master_pasien'])->middleware('auth')->name('ambil_master_pasien');
+Route::post('ambil_master_tarif', [MasterController::class, 'ambil_master_tarif'])->middleware('auth')->name('ambil_master_tarif');
 Route::get('diagnosa', [MasterController::class, 'diagnosa'])->middleware('auth')->name('diagnosa');
 Route::get('tarif', [MasterController::class, 'tarif'])->middleware('auth')->name('tarif');
 
 
-
+//Farmasi
+Route::get('layananresep', [FarmasiController::class, 'Index'])->name('layananresep');
+Route::get('masterobat', [FarmasiController::class, 'masterobat'])->name('masterobat');
+Route::get('stokobat', [FarmasiController::class, 'stokobat'])->name('stokobat');
+Route::get('riwayatresep', [FarmasiController::class, 'riwayatresep'])->name('riwayatresep');
 
 //keuangan
 Route::get('kasir', [KeuanganController::class, 'Index'])->name('kasir');
 Route::get('keuangan', [KeuanganController::class, 'Index'])->name('keuangan');
+Route::get('laporankasir', [KeuanganController::class, 'laporankasir'])->name('laporankasir');
 Route::post('ambil_antrian_kasir', [KeuanganController::class, 'ambil_antrian_kasir'])->name('ambil_antrian_kasir');
 Route::post('detail_pembayaran', [KeuanganController::class, 'detail_pembayaran'])->name('detail_pembayaran');
 Route::post('hitung_kembalian', [KeuanganController::class, 'hitung_kembalian'])->name('hitung_kembalian');
