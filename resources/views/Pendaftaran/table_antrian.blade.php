@@ -5,10 +5,11 @@
         <th>Nomor RM</th>
         <th>Nama Pasien</th>
         <th>Status</th>
+        <th>===</th>
     </thead>
     <tbody>
         @foreach ($antrian as $a)
-            <tr class="panggilantrian" kodekunjungan="{{ $a->kode_kunjungan }}">
+            <tr>
                 <td>{{ $a->kode_registrasi }}</td>
                 <td>{{ $a->no_rm }}</td>
                 <td>{{ $a->nama_px }}</td>
@@ -23,6 +24,7 @@
                         Selesai
                     @endif
                 </td>
+                <td><button class="btn btn-success btn-sm panggilantrian" kodekunjungan="{{ $a->kode_kunjungan }}">Panggil</button></td>
             </tr>
         @endforeach
     </tbody>

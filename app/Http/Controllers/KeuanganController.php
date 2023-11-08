@@ -12,18 +12,20 @@ use App\Models\ts_layanan_header;
 
 class KeuanganController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $now = $this->get_date();
         $menu = 'KASIR';
-        return view('keuangan.index',compact([
+        return view('keuangan.index', compact([
             'menu',
             'now'
         ]));
     }
-    public function laporankasir(){
+    public function laporankasir()
+    {
         $now = $this->get_date();
         $menu = 'Laporan Pendapatan Kasir';
-        return view('keuangan.laporankasir',compact([
+        return view('keuangan.laporankasir', compact([
             'menu',
             'now'
         ]));
@@ -33,10 +35,10 @@ class KeuanganController extends Controller
         $now = $this->get_date();
         $tglawal = $request->tglawal;
         $tglakhir = $request->tglakhir;
-        $cari_antrian = DB::select('SELECT DATE(b.tgl_entry) AS tgl_masuk,b.no_rm,b.nama_px,fc_alamat(b.no_rm) AS alamat,a.kode_kunjungan,kode_registrasi FROM ts_kunjungan a
+        $cari_antrian = DB::select('SELECT DATE(b.tgl_entry) AS tgl_masuk,b.no_rm,b.nama_px,fc_alamat(b.no_rm) AS alamat,a.kode_kunjungan,kode_registrasi ,a.status_kunjungan FROM ts_kunjungan a
         LEFT OUTER JOIN mt_pasien b ON a.`no_rm` = b.`no_rm`
-        WHERE DATE(a.tgl_masuk) BETWEEN ? AND ? AND a.status_kunjungan = 3',[$tglawal,$tglakhir]);
-        return view('keuangan.tabel_antrian_kasir',compact([
+        WHERE DATE(a.tgl_masuk) BETWEEN ? AND ?', [$tglawal, $tglakhir]);
+        return view('keuangan.tabel_antrian_kasir', compact([
             'cari_antrian',
             'now'
         ]));
@@ -48,19 +50,20 @@ class KeuanganController extends Controller
         $now = $this->get_date();
         $cari_antrian = DB::select('SELECT a.status_kunjungan,DATE(b.tgl_entry) AS tgl_masuk,b.no_rm,b.nama_px,fc_alamat(b.no_rm) AS alamat,a.kode_kunjungan,kode_registrasi FROM ts_kunjungan a
         LEFT OUTER JOIN mt_pasien b ON a.`no_rm` = b.`no_rm`
-        WHERE DATE(a.tgl_masuk) BETWEEN ? AND ? AND a.status_kunjungan = ?',[$tglawal,$tglakhir,4]);
-        return view('keuangan.tabel_riwayat_kasir',compact([
+        WHERE DATE(a.tgl_masuk) BETWEEN ? AND ? AND a.status_kunjungan = ?', [$tglawal, $tglakhir, 4]);
+        return view('keuangan.tabel_riwayat_kasir', compact([
             'cari_antrian',
             'now'
         ]));
     }
-    public function detail_pembayaran(Request $request){
+    public function detail_pembayaran(Request $request)
+    {
         $kodekunjungan = $request->kodekunjungan;
-        $detail = DB::select('SELECT a.status_layanan,b.status_layanan_detail,kode_kunjungan,a.kode_layanan_header,c.NAMA_TARIF,b.`grantotal_layanan` FROM ts_layanan_header a
+        $detail = DB::select('SELECT a.status_layanan,b.status_layanan_detail,kode_kunjungan,a.kode_layanan_header,c.NAMA_TARIF,b.`grantotal_layanan`,b.status_layanan_detail FROM ts_layanan_header a
         LEFT OUTER JOIN ts_layanan_detail b ON a.id = b.row_id_header
         LEFT OUTER JOIN mt_tarif_header c ON b.kode_tarif_detail = c.KODE_TARIF_HEADER
-        WHERE kode_kunjungan = ?',[$request->kodekunjungan]);
-        return view('keuangan.detail_pembayaran',compact([
+        WHERE kode_kunjungan = ?', [$request->kodekunjungan]);
+        return view('keuangan.detail_pembayaran', compact([
             'detail',
             'kodekunjungan'
         ]));
@@ -82,8 +85,9 @@ class KeuanganController extends Controller
         $gt = $request->gt;
         $uangbayar = $request->uangbayar;
         $kembalian = $request->kembalian;
+        $layanan_header = DB::select('select * from ts_layanan_header where kode_kunjungan = ? and status_layanan = ?', [$kodekunjungan, 1]);
         $kasir_header = [
-            'kode_kasir_header' => '1',
+            'kode_kasir_header' => $layanan_header[0]->id,
             'kode_invoice' => $kodekunjungan,
             'tipe_trans_kasir' => '1',
             'tgl_trans_kasir' => $this->get_now(),
@@ -93,16 +97,16 @@ class KeuanganController extends Controller
             'pic' => auth()->user()->id,
         ];
         $kasir_header = modelkasirheader::create($kasir_header);
-        $layanan_header = DB::select('select * from ts_layanan_header where kode_kunjungan = ? and status_layanan = ?',[$kodekunjungan,1]);
-        foreach($layanan_header as $lh){
+        foreach ($layanan_header as $lh) {
             $kasir_detail = [
-                'kode_kasir_header' => '1',
+                'kode_kasir_header' => $kasir_header->id,
                 'kode_layanan_header' => $lh->kode_layanan_header,
                 'kode_invoice' => $kodekunjungan,
                 'sub_total' => $lh->total_layanan
             ];
             $kasir_detail = modelkasirdetail::create($kasir_detail);
         }
+        $row_id_header = $layanan_header[0]->id;
         $ts_kunjungan = [
             'status_kunjungan' => 4,
         ];
@@ -111,9 +115,9 @@ class KeuanganController extends Controller
         ];
 
         ts_kunjungan::where('kode_kunjungan', $kodekunjungan)
-        ->update($ts_kunjungan);
+            ->update($ts_kunjungan);
         ts_layanan_header::where('kode_kunjungan', $kodekunjungan)
-        ->update($ts_ly_header);
+            ->update($ts_ly_header);
 
         $data = [
             'kode' => 200,
@@ -138,6 +142,14 @@ class KeuanganController extends Controller
     }
     public function ambilriwayat_bayar_kasir(Request $request)
     {
-        $kd = $request->kodekunjungan;
+        $kode = $request->kodekunjungan;
+        $r = db::select('SELECT a.id,b.id as id_detail,a.`kode_layanan_header`,a.total_layanan,b.grantotal_layanan,b.`total_tarif`,c.`NAMA_TARIF`,a.status_layanan,b.status_layanan_detail FROM ts_layanan_header a
+        LEFT OUTER JOIN ts_layanan_detail b ON a.`id` = b.`row_id_header`
+        LEFT OUTER JOIN mt_tarif_header c ON b.`kode_tarif_detail` = c.`KODE_TARIF_HEADER` where a.kode_kunjungan = ?', [$kode]);
+        $header = db::select('select * from ts_layanan_header where kode_kunjungan = ?',[$kode]);
+        $detail_kasir = db::select('select * from ts_kasir_header where kode_invoice = ?',[$kode]);
+        return view('keuangan.detail_riwayat_pembayaran', compact([
+            'r', 'kode','header','detail_kasir'
+        ]));
     }
 }

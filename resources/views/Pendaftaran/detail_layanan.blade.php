@@ -17,10 +17,14 @@
                         <td>{{ $d->NAMA_TARIF }}</td>
                         <td>IDR {{ number_format($d->grantotal_layanan, 2) }}</td>
                         <td>
+                            @if($d->status_layanan_detail != 8)
                             @if ($d->status_layanan == 1)
                                 Belum Dibayar
                             @elseif($d->status_layanan == 2)
                                 Sudah dibayar
+                            @endif
+                            @else
+                            Retur
                             @endif
                         </td>
                         <td>

@@ -4,14 +4,16 @@
            <th>NIK</th>
            <th>Nama</th>
            <th>Alamat</th>
+           <th>===</th>
        </thead>
        <tbody>
            @foreach ($pasien as $p)
-               <tr class="pilihpasien" data-toggle="modal" norm="{{ $p->no_rm }}" data-target="#modalpendaftaran">
+               <tr>
                    <td>{{ $p->no_rm }}</td>
                    <td>{{ $p->nik }}</td>
                    <td>{{ $p->nama_px }}</td>
                    <td>{{ $p->alamatnya}}</td>
+                   <td><button class="btn btn-success btn-sm pilihpasien"  data-toggle="modal" norm="{{ $p->no_rm }}" data-target="#modalpendaftaran">Daftar</button></td>
                </tr>
            @endforeach
        </tbody>

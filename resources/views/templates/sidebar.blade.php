@@ -200,6 +200,30 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('barang')}}" class="nav-link @if($menu == 'BARANG' ) active @endif">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            Master Barang
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('barang')}}" class="nav-link @if($menu == 'STOK' ) active @endif">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            Master Stok
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('distributor')}}" class="nav-link @if($menu == 'DISTRIBUTOR' ) active @endif">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            Master Distributor
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-header">Akun</li>
                 <li class="nav-item">
                     <a href="{{ route('profil')}}" class="nav-link @if($menu == 'Profil' ) active @endif">

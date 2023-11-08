@@ -7,14 +7,33 @@
                 <th>Nomor RM</th>
                 <th>Nama</th>
                 <th>Alamat</th>
+                <th>Status</th>
+                <th>===</th>
             </thead>
             <tbody>
                 @foreach ($cari_antrian as $c)
-                    <tr class="bayar" kodekunjungan={{ $c->kode_kunjungan }}>
+                    <tr>
                         <td>{{ $c->tgl_masuk }}</td>
                         <td>{{ $c->no_rm }}</td>
                         <td>{{ $c->nama_px }}</td>
                         <td>{{ $c->alamat }}</td>
+                        <td>
+                            @if ($c->status_kunjungan == 3)
+                                Menunggu Pembayaran
+                            @elseif($c->status_kunjungan == 4)
+                                Selesai
+                            @elseif($c->status_kunjungan == 5)
+                                Batal
+                            @else
+                                Dalam antrian
+                            @endif
+                        </td>
+                        <td>
+                            @if ($c->status_kunjungan == 3)
+                                <button class="btn btn-success btn-sm bayar"
+                                    kodekunjungan={{ $c->kode_kunjungan }}>Bayar</button>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -28,7 +47,8 @@
         <form class="form-inline mb-3">
             <div class="form-group mx-sm-2 mb-2">
                 <label for="inputPassword2" class="sr-only">nomorrm</label>
-                <input type="date" class="form-control" id="tanggalawal_r" placeholder="Tanggal awal" value="{{ $now }}">
+                <input type="date" class="form-control" id="tanggalawal_r" placeholder="Tanggal awal"
+                    value="{{ $now }}">
             </div>
             <div class="form-group mx-sm-2 mb-2">
                 <label for="inputPassword2" class="sr-only">ktp</label>
@@ -75,7 +95,8 @@
     })
     $(document).ready(function() {
         riwayatpembayaran()
-        })
+    })
+
     function riwayatpembayaran() {
         tglawal = $('#tanggalawal_r').val()
         tglakhir = $('#tanggalakhir_r').val()

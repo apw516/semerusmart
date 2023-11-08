@@ -16,8 +16,17 @@
                         <td>{{ $d->kode_layanan_header }}</td>
                         <td>{{ $d->NAMA_TARIF }}</td>
                         <td>IDR {{ number_format($d->grantotal_layanan, 2) }}</td>
-                        <td>@if($d->status_layanan == 1) Belum Dibayar @elseif($d->status_layanan == 2) Sudah dibayar @endif</td>
-                        <td>@if($d->status_layanan_detail == 1) Aktif @elseif($d->status_layanan_detail == 8) Retur @endif</td>
+                        <td>
+                            @if($d->status_layanan_detail != 8)
+                            @if($d->status_layanan == 1) Belum Dibayar @elseif($d->status_layanan == 2) Sudah dibayar @endif
+                            @else
+                            Retur
+                            @endif
+                        </td>
+                        <td>
+                            @if($d->status_layanan_detail == 1) Aktif
+                            @elseif($d->status_layanan_detail == 8) Retur @endif
+                        </td>
                     </tr>
                     @if($d->status_layanan == 1)
                         @php $gt = $gt + $d->grantotal_layanan @endphp
@@ -160,6 +169,7 @@
                         text: data.message,
                         footer: ''
                     })
+                    location.reload()
                 }
             }
         });

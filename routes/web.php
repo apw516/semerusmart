@@ -9,8 +9,6 @@ use App\Http\Controllers\PelayananController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FarmasiController;
 
-
-
 Route::get('/', [LoginController::class, 'index'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->middleware('guest')->name('/login');
 Route::get('register', [LoginController::class, 'index_register'])->middleware('guest')->name('register');
@@ -45,8 +43,11 @@ Route::post('form_erm', [PelayananController::class, 'FormErm'])->middleware('au
 Route::post('simpan_assesment', [PelayananController::class, 'SimpanAssesment'])->middleware('auth')->name('simpan_assesment');
 Route::post('ambil_riwayat_tindakan', [PelayananController::class, 'AmbilRiwayatTindakan'])->middleware('auth')->name('ambil_riwayat_tindakan');
 Route::post('retursatulayanan', [PelayananController::class, 'retursatulayanan'])->middleware('auth')->name('retursatulayanan');
+Route::post('tampilobatpaket', [PelayananController::class, 'tampilobatpaket'])->middleware('auth')->name('tampilobatpaket');
+Route::post('tampilobatpaten', [PelayananController::class, 'tampilobatpaten'])->middleware('auth')->name('tampilobatpaten');
 
 // Master
+Route::get('distributor', [MasterController::class, 'distributor'])->middleware('auth')->name('distributor');
 Route::get('master', [MasterController::class, 'Index'])->middleware('auth')->name('master');
 Route::get('pasien', [MasterController::class, 'pasien'])->middleware('auth')->name('pasien');
 Route::get('pegawai', [MasterController::class, 'pegawai'])->middleware('auth')->name('pegawai');
@@ -58,8 +59,16 @@ Route::post('simpankary', [MasterController::class, 'simpankary'])->middleware('
 Route::post('ambil_master_user', [MasterController::class, 'ambil_master_user'])->middleware('auth')->name('ambil_master_user');
 Route::post('ambil_master_pasien', [MasterController::class, 'ambil_master_pasien'])->middleware('auth')->name('ambil_master_pasien');
 Route::post('ambil_master_tarif', [MasterController::class, 'ambil_master_tarif'])->middleware('auth')->name('ambil_master_tarif');
+Route::post('ambil_master_barang', [MasterController::class, 'ambil_master_barang'])->middleware('auth')->name('ambil_master_barang');
+Route::post('ambil_master_dist', [MasterController::class, 'ambil_master_dist'])->middleware('auth')->name('ambil_master_dist');
+Route::post('simpan_tarif', [MasterController::class, 'simpan_tarif'])->middleware('auth')->name('simpan_tarif');
 Route::get('diagnosa', [MasterController::class, 'diagnosa'])->middleware('auth')->name('diagnosa');
 Route::get('tarif', [MasterController::class, 'tarif'])->middleware('auth')->name('tarif');
+Route::get('barang', [MasterController::class, 'barang'])->middleware('auth')->name('barang');
+Route::post('detail_barang', [MasterController::class, 'detail_barang'])->middleware('auth')->name('detail_barang');
+Route::post('simpandetailbarang', [MasterController::class, 'simpandetailbarang'])->middleware('auth')->name('simpandetailbarang');
+Route::post('simpanbarangbaru', [MasterController::class, 'simpanbarangbaru'])->middleware('auth')->name('simpanbarangbaru');
+Route::post('simpandistributorbaru', [MasterController::class, 'simpandistributorbaru'])->middleware('auth')->name('simpandistributorbaru');
 
 
 //Farmasi

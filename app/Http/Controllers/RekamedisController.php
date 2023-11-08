@@ -357,7 +357,7 @@ class RekamedisController extends Controller
     public function detail_pelayanan(Request $request)
     {
         $kodekunjungan = $request->kodekunjungan;
-        $detail = DB::select('SELECT a.status_layanan,b.status_layanan_detail,kode_kunjungan,a.kode_layanan_header,c.NAMA_TARIF,b.`grantotal_layanan` FROM ts_layanan_header a
+        $detail = DB::select('SELECT a.status_layanan,b.status_layanan_detail,kode_kunjungan,a.kode_layanan_header,c.NAMA_TARIF,b.`grantotal_layanan`,b.status_layanan_detail FROM ts_layanan_header a
         LEFT OUTER JOIN ts_layanan_detail b ON a.id = b.row_id_header
         LEFT OUTER JOIN mt_tarif_header c ON b.kode_tarif_detail = c.KODE_TARIF_HEADER
         WHERE kode_kunjungan = ?',[$request->kodekunjungan]);
