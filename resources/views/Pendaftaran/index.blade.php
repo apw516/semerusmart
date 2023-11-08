@@ -26,18 +26,18 @@
                 <div class="col-md-6">
                     <form class="form-inline mb-3">
                         <div class="form-group mx-sm-2 mb-2">
-                            <label for="inputPassword2" class="sr-only">Password</label>
-                            <input type="text" class="form-control" id="" placeholder="Nomor RM">
+                            <label for="inputPassword2" class="sr-only">nomorrm</label>
+                            <input type="text" class="form-control" id="cari_nomorrm" placeholder="Nomor RM">
                         </div>
                         <div class="form-group mx-sm-2 mb-2">
-                            <label for="inputPassword2" class="sr-only">Password</label>
-                            <input type="text" class="form-control" id="inputPassword2" placeholder="Nomor KTP">
+                            <label for="inputPassword2" class="sr-only">ktp</label>
+                            <input type="text" class="form-control" id="cari_ktp" placeholder="Nomor KTP">
                         </div>
                         <div class="form-group mx-sm-2 mb-2">
-                            <label for="inputPassword2" class="sr-only">Password</label>
-                            <input type="text" class="form-control" id="inputPassword2" placeholder="Nama Pasien">
+                            <label for="inputPassword2" class="sr-only">nama</label>
+                            <input type="text" class="form-control" id="cari_nama" placeholder="Nama Pasien">
                         </div>
-                        <button type="submit" class="btn btn-primary mb-2"><i class="bi bi-search mr-2"></i>Pasien</button>
+                        <button type="button" class="btn btn-primary mb-2" onclick="caripasien()"><i class="bi bi-search mr-2"></i>Pasien</button>
                     </form>
                     <div class="v_tabel_pasien">
 
@@ -55,9 +55,13 @@
                     <form class="form-inline">
                         <div class="form-group mx-sm-3 mb-2">
                             <label for="inputPassword2" class="sr-only">Password</label>
-                            <input type="date" class="form-control" id="inputPassword2" placeholder="Password">
+                            <input type="date" class="form-control" id="tanggalawal" placeholder="Password" value="{{ $now }}">
                         </div>
-                        <button type="submit" class="btn btn-primary mb-2"><i class="bi bi-search mr-1"></i>Riwayat
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="inputPassword2" class="sr-only">Password</label>
+                            <input type="date" class="form-control" id="tanggalakhir" placeholder="Password" value="{{ $now }}">
+                        </div>
+                        <button type="button" class="btn btn-primary mb-2" onclick="tampilriwayat_daftar()"><i class="bi bi-search mr-1"></i>Riwayat
                             Pendaftaran</button>
                     </form>
                     <div class="VRP">
@@ -256,9 +260,11 @@
     </div>
     <script>
         $(document).ready(function() {
+            tanggalawal = $('#tanggalawal').val()
+            tanggalakhir = $('#tanggalakhir').val()
             get_data_pasien()
             get_antrian()
-            get_riwayat_daftar()
+            get_riwayat_daftar(tanggalawal,tanggalakhir)
         })
         $(function() {
             $('#tabelpasien').DataTable({
@@ -282,6 +288,12 @@
                 "responsive": true,
             });
         });
+        function tampilriwayat_daftar()
+        {
+            tanggalawal = $('#tanggalawal').val()
+            tanggalakhir = $('#tanggalakhir').val()
+            get_riwayat_daftar(tanggalawal,tanggalakhir)
+        }
         $(function() {
             $('#tabelriwayatpendaftaran').DataTable({
                 "paging": true,
@@ -306,6 +318,22 @@
                 }
             });
         }
+        function get_data_pasien_cari(rm,ktp,nama) {
+            $.ajax({
+                type: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    rm,
+                    ktp,
+                    nama
+                },
+                url: '<?= route('ambil_data_pasien_cari') ?>',
+                success: function(response) {
+                    $('.v_tabel_pasien').html(response);
+                    // $('#daftarpxumum').attr('disabled', true);
+                }
+            });
+        }
         function get_antrian() {
             $.ajax({
                 type: 'post',
@@ -319,11 +347,12 @@
                 }
             });
         }
-        function get_riwayat_daftar() {
+        function get_riwayat_daftar(tanggalawal,tanggalakhir) {
             $.ajax({
                 type: 'post',
                 data: {
-                    _token: "{{ csrf_token() }}"
+                    _token: "{{ csrf_token() }}",
+                    tanggalawal,tanggalakhir
                 },
                 url: '<?= route('ambil_riwayat_daftar') ?>',
                 success: function(response) {
@@ -391,9 +420,10 @@
                 }
             });
         });
-
         function simpanpasienbaru() {
             var data = $('.form-pasien-baru').serializeArray();
+            spinner = $('#loader2');
+            spinner.show();
             $.ajax({
                 async: true,
                 type: 'post',
@@ -410,8 +440,10 @@
                         text: 'Sepertinya ada masalah......',
                         footer: ''
                     })
+                    spinner.hide();
                 },
                 success: function(data) {
+                    spinner.hide();
                     if (data.kode == 500) {
                         Swal.fire({
                             icon: 'error',
@@ -434,6 +466,8 @@
         function simpan_pendaftaran()
         {
             var data = $('.formutama_daftar').serializeArray();
+            spinner = $('#loader2');
+            spinner.show();
             $.ajax({
                 async: true,
                 type: 'post',
@@ -450,8 +484,10 @@
                         text: 'Sepertinya ada masalah......',
                         footer: ''
                     })
+                    spinner.hide();
                 },
                 success: function(data) {
+                    spinner.hide();
                     if (data.kode == 500) {
                         Swal.fire({
                             icon: 'error',
@@ -470,6 +506,13 @@
                     }
                 }
             });
+        }
+        function caripasien()
+        {
+            rm = $('#cari_nomorrm').val()
+            ktp = $('#cari_ktp').val()
+            nama = $('#cari_nama').val()
+            get_data_pasien_cari(rm,ktp,nama)
         }
     </script>
 @endsection
