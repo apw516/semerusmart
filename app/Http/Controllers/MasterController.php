@@ -98,9 +98,11 @@ class MasterController extends Controller
     }
     public function ambil_master_barang()
     {
-        $bar = DB::select('select * from mt_barang');
+        $bar = DB::select('select *,a.id as id_barang from mt_barang a left outer join mt_distributor b on a.id_distributor = b.id');
+        $dist = DB::select('select * from mt_distributor');
         return view('adminmaster.tabel_barang', compact([
-            'bar'
+            'bar',
+            'dist'
         ]));
     }
     public function ambil_master_dist()
@@ -114,9 +116,11 @@ class MasterController extends Controller
     {
         $user = DB::select('select * from mt_user where id =?', [$request->id]);
         $unit = DB::select('select * from mt_unit');
+        $hak_ = DB::select('select * from mt_hak_akses');
         return view('adminmaster.detailuser', compact([
             'user',
-            'unit'
+            'unit',
+            'hak_'
         ]));
     }
     public function simpaneditpasien(Request $request)
@@ -250,6 +254,26 @@ class MasterController extends Controller
             'dist'
         ]));
     }
+    public function editbarang(Request $request)
+    {
+        $barang = DB::select('select * from mt_barang where id = ?', [$request->id]);
+        $dist = DB::select('select * from mt_distributor');
+        return view('adminmaster.editbarang', compact([
+            'barang',
+            'dist'
+        ]));
+    }
+    public function detail_stok(Request $request)
+    {
+        $barang = DB::select('select * from mt_barang a left outer join mt_distributor b on a.id_distributor = b.id where a.id = ?', [$request->id]);
+        $stok = db::select('SELECT * FROM ti_kartu_stok WHERE kode_barang = ?  AND no IN (SELECT MAX(no) FROM ti_kartu_stok where kode_barang = ?)', [$barang[0]->kode_barang, $barang[0]->kode_barang]);
+        $sediaan = DB::select('select * from ti_stok_pesediaan where kode_barang = ?', [$barang[0]->kode_barang]);
+        return view('adminmaster.detailstok', compact([
+            'barang',
+            'stok',
+            'sediaan'
+        ]));
+    }
     public function simpandetailbarang(Request $request)
     {
         $data2 = json_decode($_POST['data'], true);
@@ -258,15 +282,30 @@ class MasterController extends Controller
             $value =  $nama['value'];
             $header[$index] = $value;
         }
+        $mt_barang = DB::select('select * from mt_barang where id = ?', [$header['id']]);
+        $isi_1 = 0;
+        $isi_2 = 0;
+        $isi_3 = 0;
+        if($header['isi_satuan_besar'] > 0){
+            $j1 = $header['isi_satuan_besar'] * $mt_barang[0]->isi_satuan_sedang;
+            $isi_1 = $j1 * $mt_barang[0]->isi_satuan_kecil;
+        }
+        if($header['isi_satuan_sedang'] > 0){
+            $isi_2 = $header['isi_satuan_sedang'] * $mt_barang[0]->isi_satuan_kecil;
+        }
+        if($header['isi_satuan_kecil'] > 0){
+            $isi_3 = $header['isi_satuan_kecil'];
+        }
+        $stok_in = $isi_1 + $isi_2 + $isi_3;
         $data_detail = [
-            'dosis' => $header['dosis'],
-            'stok' => $header['stok'],
+            // 'isi_satuan_besar' => $header['isi_satuan_besar'],
+            // 'isi_satuan_sedang' => $header['isi_satuan_sedang'],
+            // 'isi_satuan_kecil' => $header['isi_satuan_kecil'],
+            // 'stok' => $mt_barang[0]->stok + $stok_in,
             'harga_jual' => $header['hargajual'],
-            'satuan' => $header['satuan'],
-            'satuan_besar' => $header['satuanbesar'],
-            'isi' => $header['isi'],
             'harga_beli' => $header['hargabeli'],
             'aturan_pakai' => $header['aturanpakai'],
+            'ed' => $header['ed'],
             'last_update' => $this->get_now()
             // 'paket' => $header['paket'],
         ];
@@ -279,26 +318,26 @@ class MasterController extends Controller
         };
         if ($simpanstok == 1) {
             // $cek_ti_kartu_stok = DB::select('select * from ti_kartu_stok where kode_barang = ?',[$header['kodebarang']]);
-            $mt_barang = DB::select('select * from mt_barang where id = ?',[$header['id']]);
-            $mt_tarif_header = DB::select('select * from mt_tarif_header where idx = ?',[$mt_barang[0]->id_tarif_header]);
+            $mt_tarif_header = DB::select('select * from mt_tarif_header where idx = ?', [$mt_barang[0]->id_tarif_header]);
             // $mt_tarif_detail = DB::select('select * from mt_tarif_detail where KODE_TARIF_HEADER = ? AND KELAS_TARIF = ?',[$mt_tarif_header[0]->KODE_TARIF_HEADER,'3']);
             //update master tarif detail dengan kelas 3 disertai dengan harga jual di ts_layanan_detail denga harga jual terbaru
             $cek_ti_kartu_stok = db::select('SELECT * FROM ti_kartu_stok WHERE NO = ( SELECT MAX(a.no ) AS nomor FROM ti_kartu_stok a WHERE kode_barang = ?)', [$header['kodebarang']]);
             if (count($cek_ti_kartu_stok) == 0) {
                 $stok_last = 0;
-                $stok_current = $header['stok'];
+                $stok_current =  $stok_in;
                 $harga_beli_history = 0;
             } else {
                 $stok_last = $cek_ti_kartu_stok[0]->stok_current;
-                $stok_current = $stok_last + $header['stok'];
+                $stok_current = $stok_last +  $stok_in;
                 $harga_beli_history = $cek_ti_kartu_stok[0]->harga_beli;
             }
             $ti_kartu_stok = [
+                'no_dokumen' => $this->get_kode_master_barang(),
                 'tgl_stok' => $this->get_now(),
                 'kode_unit' => '4002',
                 'kode_barang' => $header['kodebarang'],
                 'stok_last' => $stok_last,
-                'stok_in' => $header['stok'],
+                'stok_in' => $header['isi_satuan_kecil'],
                 'stok_current' => $stok_current,
                 'harga_beli' => $header['hargabeli'],
                 'input_by' => auth()->user()->id,
@@ -309,21 +348,21 @@ class MasterController extends Controller
                 'STOK_CURRENT' => $stok_current
             ];
             Tarif_detail::where('KODE_TARIF_HEADER', $mt_tarif_header[0]->KODE_TARIF_HEADER)
-            ->update($data_detail_tarif);
+                ->update($data_detail_tarif);
             ti_kartu_stok::create($ti_kartu_stok);
 
             //cek tabel sediaan
-            $cek_sediaan = DB::select('select * from ti_stok_pesediaan where kode_barang = ? and ed = ? and distributor_id = ?',[$header['kodebarang'],$header['ed'],$header['distributor']]);
-            if(count($cek_sediaan) > 0){
+            $cek_sediaan = DB::select('select * from ti_stok_pesediaan where kode_barang = ? and ed = ? and distributor_id = ?', [$header['kodebarang'], $header['ed'], $header['distributor']]);
+            if (count($cek_sediaan) > 0) {
                 $data_sediaan = [
                     'stok' => $stok_current,
                     'last_update' => $this->get_now(),
                 ];
                 mt_sediaan::where('id', $cek_sediaan[0]->id)->update($data_sediaan);
-            }else{
+            } else {
                 $data_sediaan = [
                     'kode_barang' => $header['kodebarang'],
-                    'stok' => $header['stok'],
+                    'stok' =>  $stok_in,
                     'kode_unit' => '4002',
                     'ed' => $header['ed'],
                     'distributor_id' => $header['distributor'],
@@ -370,72 +409,74 @@ class MasterController extends Controller
             'kode_barang' => $kode_barang,
             'nama_barang' => strtoupper($header['namabarang']),
             'dosis' => $header['dosis'],
-            'stok' => $header['stok'],
-            'harga_jual' => $header['hargajual'],
-            'satuan' => $header['satuan'],
             'satuan_besar' => $header['satuanbesar'],
-            'isi' => $header['isi'],
-            'harga_beli' => $header['hargabeli'],
-            'aturan_pakai' => $header['aturanpakai'],
+            'isi_satuan_besar' => $header['rasiobesar'],
+            'satuan_sedang' => $header['satuansedang'],
+            'isi_satuan_sedang' => $header['rasiosedang'],
+            'satuan_kecil' => $header['satuankecil'],
+            'isi_satuan_kecil' => $header['rasiokecil'],
             'tgl_input' => $this->get_now(),
-            'ed' => $header['ed'],
             'id_distributor' => $header['distributor'],
         ];
         $BRG = mt_barang::create($data_barang);
-        if (empty($header['ceklisan'])) {
-            $simpanstok = 0;
-        } else {
-            $simpanstok = 1;
-        };
-        if ($simpanstok == 1) {
-            //buat master tarif header dan master tarif detail dengan kelas 3 disertai dengan harga jual di ts_layanan_detail
-            $kode_header = $this->get_kode_tarif_header();
-            $data_header = [
-                'KODE_TARIF_HEADER' => $kode_header,
-                'NAMA_TARIF' => $header['namabarang'],
-                'KELOMPOK_TARIF_ID' => 4,
-                'eklaim_group' => '11',
-                'TGL_INPUT' => $this->get_now(),
-                'status' => '1',
-                'user_input_id' => auth()->user()->id,
-            ];
-            $mt_tarif_header = Tarif_header::create($data_header);
-            $data_detail = [
-                'KODE_TARIF_DETAIL' => $kode_header . 3,
-                'KODE_TARIF_HEADER' => $kode_header,
-                'KELAS_TARIF' => 3,
-                'TOTAL_TARIF_CURRENT' => $header['hargajual'],
-                'STOK_CURRENT' => $header['stok'],
-                'INPUT_DATE' => $this->get_now(),
-            ];
-            Tarif_detail::create($data_detail);
-            $stok_last = 0;
-            $stok_current = $header['stok'];
-            $harga_beli_history = 0;
-            $ti_kartu_stok = [
-                'tgl_stok' => $this->get_now(),
-                'kode_unit' => '4002',
-                'kode_barang' => $kode_barang,
-                'stok_last' => $stok_last,
-                'stok_in' => $header['stok'],
-                'stok_current' => $stok_current,
-                'harga_beli' => $header['hargabeli'],
-                'input_by' => auth()->user()->id,
-                'harga_beli_history' => $harga_beli_history,
-            ];
-            ti_kartu_stok::create($ti_kartu_stok);
-            mt_barang::where('id', $BRG['id'])
+        $kode_header = $this->get_kode_tarif_header();
+        $data_header = [
+            'KODE_TARIF_HEADER' => $kode_header,
+            'NAMA_TARIF' => strtoupper($header['namabarang']),
+            'KELOMPOK_TARIF_ID' => 4,
+            'eklaim_group' => '11',
+            'TGL_INPUT' => $this->get_now(),
+            'status' => '1',
+            'user_input_id' => auth()->user()->id,
+        ];
+        $mt_tarif_header = Tarif_header::create($data_header);
+        $data_detail = [
+            'KODE_TARIF_DETAIL' => $kode_header . 3,
+            'KODE_TARIF_HEADER' => $kode_header,
+            'KELAS_TARIF' => 3,
+            'INPUT_DATE' => $this->get_now(),
+        ];
+        Tarif_detail::create($data_detail);
+        mt_barang::where('id', $BRG['id'])
             ->update(['id_tarif_header' => $mt_tarif_header->id]);
-            $data_sediaan = [
-                'kode_barang' => $kode_barang,
-                'stok' => $stok_current,
-                'kode_unit' => '4002',
-                'ed' => $header['ed'],
-                'distributor_id' => $header['distributor'],
-                'tgl_entry' => $this->get_now()
-            ];
-            mt_sediaan::create($data_sediaan);
+        $data = [
+            'kode' => 200,
+            'message' => 'Data berhasil disimpan !'
+        ];
+        echo json_encode($data);
+    }
+    public function simpaneditbarang(Request $request)
+    {
+        $data2 = json_decode($_POST['data'], true);
+        foreach ($data2 as $nama) {
+            $index =  $nama['name'];
+            $value =  $nama['value'];
+            $header[$index] = $value;
         }
+        $kode_barang =  $this->get_kode_barang();
+        $data_barang = [
+            'nama_barang' => strtoupper($header['namabarang']),
+            'dosis' => $header['dosis'],
+            'satuan_besar' => $header['satuanbesar'],
+            'isi_satuan_besar' => $header['rasiobesar'],
+            'satuan_sedang' => $header['satuansedang'],
+            'isi_satuan_sedang' => $header['rasiosedang'],
+            'satuan_kecil' => $header['satuankecil'],
+            'isi_satuan_kecil' => $header['rasiokecil'],
+            'tgl_input' => $this->get_now(),
+            'id_distributor' => $header['distributor'],
+        ];
+        mt_barang::where('id', $header['idbarang'])->update($data_barang);
+        $data_header = [
+            'NAMA_TARIF' => strtoupper($header['namabarang']),
+            'KELOMPOK_TARIF_ID' => 4,
+            'eklaim_group' => '11',
+            'TGL_INPUT' => $this->get_now(),
+            'status' => '1',
+            'user_input_id' => auth()->user()->id,
+        ];
+        Tarif_header::where('idx', $header['idtarif'])
+            ->update($data_header);
         $data = [
             'kode' => 200,
             'message' => 'Data berhasil disimpan !'
@@ -489,6 +530,22 @@ class MasterController extends Controller
         }
         date_default_timezone_set('Asia/Jakarta');
         return 'B' . $kd;
+    }
+    public function get_kode_master_barang()
+    {
+        $q = DB::select('SELECT a.no,no_dokumen,RIGHT(no_dokumen,6) AS kd_max  FROM ti_kartu_stok a ORDER BY a.no DESC
+        LIMIT 1');
+        $kd = "";
+        if (count($q) > 0) {
+            foreach ($q as $k) {
+                $tmp = ((int) $k->kd_max) + 1;
+                $kd = sprintf("%06s", $tmp);
+            }
+        } else {
+            $kd = "000001";
+        }
+        date_default_timezone_set('Asia/Jakarta');
+        return 'M' . $kd;
     }
     public function get_now()
     {

@@ -42,7 +42,9 @@ Route::post('ambil_antrian_erm', [PelayananController::class, 'AntrianErm'])->mi
 Route::post('form_erm', [PelayananController::class, 'FormErm'])->middleware('auth')->name('form_erm');
 Route::post('simpan_assesment', [PelayananController::class, 'SimpanAssesment'])->middleware('auth')->name('simpan_assesment');
 Route::post('ambil_riwayat_tindakan', [PelayananController::class, 'AmbilRiwayatTindakan'])->middleware('auth')->name('ambil_riwayat_tindakan');
+Route::post('ambil_riwayat_farmasi', [PelayananController::class, 'AmbilRiwayatFarmasi'])->middleware('auth')->name('ambil_riwayat_farmasi');
 Route::post('retursatulayanan', [PelayananController::class, 'retursatulayanan'])->middleware('auth')->name('retursatulayanan');
+Route::post('retursatulayanan_far', [PelayananController::class, 'retursatulayanan_far'])->middleware('auth')->name('retursatulayanan_far');
 Route::post('tampilobatpaket', [PelayananController::class, 'tampilobatpaket'])->middleware('auth')->name('tampilobatpaket');
 Route::post('tampilobatpaten', [PelayananController::class, 'tampilobatpaten'])->middleware('auth')->name('tampilobatpaten');
 
@@ -66,8 +68,11 @@ Route::get('diagnosa', [MasterController::class, 'diagnosa'])->middleware('auth'
 Route::get('tarif', [MasterController::class, 'tarif'])->middleware('auth')->name('tarif');
 Route::get('barang', [MasterController::class, 'barang'])->middleware('auth')->name('barang');
 Route::post('detail_barang', [MasterController::class, 'detail_barang'])->middleware('auth')->name('detail_barang');
+Route::post('editbarang', [MasterController::class, 'editbarang'])->middleware('auth')->name('editbarang');
+Route::post('detail_stok', [MasterController::class, 'detail_stok'])->middleware('auth')->name('detail_stok');
 Route::post('simpandetailbarang', [MasterController::class, 'simpandetailbarang'])->middleware('auth')->name('simpandetailbarang');
 Route::post('simpanbarangbaru', [MasterController::class, 'simpanbarangbaru'])->middleware('auth')->name('simpanbarangbaru');
+Route::post('simpaneditbarang', [MasterController::class, 'simpaneditbarang'])->middleware('auth')->name('simpaneditbarang');
 Route::post('simpandistributorbaru', [MasterController::class, 'simpandistributorbaru'])->middleware('auth')->name('simpandistributorbaru');
 
 

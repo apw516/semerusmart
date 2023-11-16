@@ -4,19 +4,23 @@
     <thead>
         <th>---</th>
         <th>Kode Layanan Header</th>
-        <th>Tarif</th>
         <th>Nama Tarif</th>
+        <th>Jumlah</th>
+        <th>Tarif</th>
+        <th>Grantotal</th>
         <th>Status Layanan</th>
     </thead>
     <tbody>
         @foreach ($r as $a)
             <tr>
-                <td><button class="btn btn-danger btn-sm retursatutindakan" iddetail="{{ $a->id_detail }}"
+                <td><button class="btn btn-danger btn-sm retursatu" iddetail="{{ $a->id_detail }}"
                         nama="{{ $a->NAMA_TARIF }}"><i class="bi bi-journal-x mr-2"></i>Retur</button>
                 </td>
                 <td>{{ $a->kode_layanan_header }}</td>
-                <td>{{ $a->total_tarif }}</td>
                 <td>{{ $a->NAMA_TARIF }}</td>
+                <td>{{ $a->jumlah_layanan }}</td>
+                <td>{{ $a->total_tarif }}</td>
+                <td>{{ $a->grantotal_layanan }}</td>
                 <td>
                     @if ($a->status_layanan_detail == 1)
                         Aktif
@@ -31,7 +35,7 @@
     </tbody>
 </table>
 <script>
-    $('.retursatutindakan').click(function() {
+    $('.retursatu').click(function() {
         kode = $(this).attr('iddetail')
         nama = $(this).attr('nama')
         Swal.fire({
@@ -62,7 +66,7 @@
                                 _token: "{{ csrf_token() }}",
                                 kode,
                             },
-                            url: '<?= route('retursatulayanan') ?>',
+                            url: '<?= route('retursatulayanan_far') ?>',
                             error: function(data) {
                                 Swal.fire({
                                     icon: 'error',

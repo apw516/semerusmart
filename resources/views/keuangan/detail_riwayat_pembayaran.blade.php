@@ -26,7 +26,7 @@
             </table>
         </div>
         <div class="card-footer">
-            <table class="table table-sm table-bordered">
+            {{-- <table class="table table-sm table-bordered">
                 <thead class="bg-info">
                     <th>Total bayar</th>
                     <th>Total yang harus dibayar</th>
@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                     @foreach ($detail_kasir as $dk)
-                        @if($dk->kode_kasir_header == $a->id)
+                        @if($dk->kode_invoice == $a->kode_kunjungan)
                         <tr class="text-lg text-bold">
                             <td>Rp.{{ number_format($dk->total_uang,2) }}</td>
                             <td>Rp.{{ number_format($a->total_layanan,2) }}</td>
@@ -43,7 +43,7 @@
                         @endif
                     @endforeach
                 </tbody>
-            </table>
+            </table> --}}
         </div>
     </div>
 @endforeach

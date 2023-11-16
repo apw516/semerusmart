@@ -19,8 +19,9 @@
     <div class="form-group">
         <label for="exampleInputPassword1">Hak akses</label>
         <select class="form-control" id="hakakses" name="hakakses">
-            <option value="1" @if ($user[0]->hak_akses == 1) selected @endif>Super User</option>
-            <option value="2" @if ($user[0]->hak_akses == 2) selected @endif>Admin</option>
+            @foreach ($hak_ as $h )
+            <option value="{{ $h->id }}" @if ($user[0]->hak_akses == 1) selected @endif>{{ $h->nama}}</option>
+            @endforeach
         </select>
     </div>
     <div class="form-group">
