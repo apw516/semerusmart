@@ -54,7 +54,7 @@ class RekamedisController extends Controller
     public function AmbilAntrian()
     {
         $antrian = DB::select('SELECT kode_kunjungan,kode_registrasi,a.no_rm,nama_px,status_kunjungan FROM ts_kunjungan a JOIN mt_pasien b ON a.`no_rm` = b.no_rm
-        WHERE DATE(tgl_masuk) = CURDATE()');
+        WHERE DATE(tgl_masuk) = CURDATE() AND status_kunjungan != 5');
         return view('pendaftaran.table_antrian', compact([
             'antrian'
         ]));
@@ -288,6 +288,46 @@ class RekamedisController extends Controller
             $dataSet[$index] = $value;
         }
         $cek_rm = DB::select('select * from ts_kunjungan where no_rm = ?', [$dataSet['nomorrm']]);
+        if($dataSet['tujuan'] == '0'){
+            $data = [
+                'kode' => 500,
+                'message' => 'Tujuan Harus dipilih !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if($dataSet['dokter'] == '0'){
+            $data = [
+                'kode' => 500,
+                'message' => 'Dokter Harus dipilih !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if($dataSet['tekanandarah'] == ''){
+            $data = [
+                'kode' => 500,
+                'message' => 'Tekanan darah harus diisi !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if($dataSet['suhutubuh'] == ''){
+            $data = [
+                'kode' => 500,
+                'message' => 'Suhu tubuh harus diisi !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if($dataSet['keluhanutama'] == ''){
+            $data = [
+                'kode' => 500,
+                'message' => 'Keluhan pasien belum diisi !'
+            ];
+            echo json_encode($data);
+            die;
+        }
         $cek_antrian = DB::select('select COUNT(kode_kunjungan) as total_antrian from ts_kunjungan where date(tgl_masuk) = ?', [$this->get_date()]);
         if ($cek_antrian[0]->total_antrian == 0) {
             $nomor_antrian = 'A' . '1';
@@ -337,7 +377,14 @@ class RekamedisController extends Controller
                     'message' => 'Pasien sudah selesai pelayanan !'
                 ];
                 echo json_encode($data);
-            }else{
+            }else if($ts_kunjungan[0]->status_kunjungan == 5){
+                $data = [
+                    'kode' => 500,
+                    'message' => 'Kunjungan sudah dibatalkan !'
+                ];
+                echo json_encode($data);
+            }
+            else{
                 $data = [
                     'kode' => 500,
                     'message' => 'Pasien sedang dalam pelayanan !'

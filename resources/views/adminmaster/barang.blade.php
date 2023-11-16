@@ -45,6 +45,45 @@
                                 placeholder="Masukan nama barang ..." value="">
                         </div>
                         <div class="form-group">
+                            <label for="exampleFormControlSelect1">Satuan Besar</label>
+                            <select class="form-control" id="satuanbesar" name="satuanbesar">
+                                <option value="">-- Silahkan pilih --</option>
+                                <option value="BOX">BOX</option>
+                                <option value="BTL">BTL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Rasio Besar</label>
+                            <input type="text" class="form-control" id="rasiobesar" name="rasiobesar"
+                                placeholder="Masukan rasio besar ..." value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Satuan Sedang</label>
+                            <select class="form-control" id="satuansedang" name="satuansedang">
+                                <option value="">-- Silahkan pilih --</option>
+                                <option value="PCS">PCS</option>
+                                <option value="BTL">BTL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Rasio Sedang</label>
+                            <input type="text" class="form-control" id="rasiosedang" name="rasiosedang"
+                                placeholder="Masukan rasio sedang ..." value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Satuan Kecil</label>
+                            <select class="form-control" id="satuankecil" name="satuankecil">
+                                <option value="">-- Silahkan pilih --</option>
+                                <option value="TAB">TAB</option>
+                                <option value="BTL">BTL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Rasio Kecil</label>
+                            <input type="text" class="form-control" id="rasiokecil" name="rasiokecil"
+                                placeholder="Masukan rasio kecil ..." value="">
+                        </div>
+                        <div class="form-group">
                             <label for="exampleFormControlSelect1">Distributor</label>
                             <select class="form-control" id="distributor" name="distributor">
                                 <option value="">-- Silahkan pilih --</option>
@@ -54,60 +93,13 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Expired Date</label>
-                            <input type="date" class="form-control" id="ed" name="ed"
-                                placeholder="name@example.com" value="">
-                        </div>
-                        <div class="form-group">
                             <label for="exampleFormControlInput1">Dosis</label>
                             <input type="text" class="form-control" id="dosis" name="dosis"
                                 placeholder="Masukan dosis obat ..." value="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Stok</label>
-                            <input type="text" class="form-control" id="stok" name="stok"
-                                placeholder="stok masuk ..." value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1">Harga Jual</label>
-                            <input type="text" class="form-control" id="hargajual" name="hargajual"
-                                placeholder="Harga jual ..." value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1">Harga Beli</label>
-                            <input type="text" class="form-control" id="hargabeli" name="hargabeli"
-                                placeholder="Harga beli" value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Satuan</label>
-                            <select class="form-control" id="satuan" name="satuan">
-                                <option value="">-- Silahkan pilih --</option>
-                                <option value="PCS">PCS</option>
-                                <option value="TAB">TAB</option>
-                                <option value="BTL">BTL</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Satuan Besar</label>
-                            <select class="form-control" id="satuanbesar" name="satuanbesar">
-                                <option value="">-- Silahkan pilih --</option>
-                                <option value="BOX">BOX</option>
-                                <option value="BTL">BTL</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1">Isi</label>
-                            <input type="text" class="form-control" id="isi" name="isi" placeholder="Isi ..."
-                                value="">
-                        </div>
-                        <div class="form-group">
                             <label for="exampleFormControlTextarea1">Aturan Pakai</label>
                             <textarea class="form-control" id="aturanpakai" name="aturanpakai" rows="3"></textarea>
-                        </div>
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="ceklisan" name="ceklisan">
-                            <label class="form-check-label text-bold text-lg text-danger" for="exampleCheck1">Input Kartu
-                                Stok </label>
                         </div>
                     </form>
                 </div>

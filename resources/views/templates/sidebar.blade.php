@@ -59,6 +59,7 @@
                         </p>
                     </a>
                 </li>
+                @if(auth()->user()->hak_akses == 1 || auth()->user()->hak_akses == 3)
                 <li class="nav-header">REKAMEDIS</li>
                 <li class="nav-item">
                     <a href="{{ route('pendaftaran')}}" class="nav-link @if($menu == 'Pendaftaran' ) active @endif">
@@ -76,6 +77,8 @@
                         </p>
                     </a>
                 </li>
+                @endif
+                @if(auth()->user()->hak_akses == 1 || auth()->user()->hak_akses == 2)
                 <li class="nav-header">PELAYANAN</li>
                 <li class="nav-item">
                     <a href="{{ route('ermpasien')}}" class="nav-link @if($menu == 'ERM - Pasien' ) active @endif">
@@ -93,6 +96,8 @@
                         </p>
                     </a>
                 </li>
+                @endif
+                @if(auth()->user()->hak_akses == 1)
                 <li class="nav-header">KEUANGAN</li>
                 <li class="nav-item">
                     <a href="{{ route('keuangan') }}" class="nav-link @if($menu == 'KASIR' ) active @endif">
@@ -110,6 +115,7 @@
                         </p>
                     </a>
                 </li>
+                @endif
                 <li hidden class="nav-header">FARMASI</li>
                 <li hidden class="nav-item">
                     <a href="{{ route('layananresep') }}" class="nav-link @if($menu == 'Layanan Resep' ) active @endif">
@@ -143,6 +149,7 @@
                         </p>
                     </a>
                 </li>
+                @if(auth()->user()->hak_akses == 1)
                 <li class="nav-header">DATA MASTER</li>
                 {{-- <li class="nav-item">
                     <a href="{{ route('master')}}" class="nav-link @if($menu == 'MASTER' ) active @endif">
@@ -208,14 +215,14 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('barang')}}" class="nav-link @if($menu == 'STOK' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
                             Master Stok
                         </p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('distributor')}}" class="nav-link @if($menu == 'DISTRIBUTOR' ) active @endif">
                         <i class="nav-icon fas fa-table"></i>
@@ -224,6 +231,7 @@
                         </p>
                     </a>
                 </li>
+                @endif
                 <li class="nav-header">Akun</li>
                 <li class="nav-item">
                     <a href="{{ route('profil')}}" class="nav-link @if($menu == 'Profil' ) active @endif">

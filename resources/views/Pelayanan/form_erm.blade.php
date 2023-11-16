@@ -48,14 +48,9 @@
             </div>
             <div class="form-group">
                 <label for="inputAddress2">Hasil Pemeriksaan</label>
-                <textarea type="text" class="form-control" id="hasilpemeriksaan" name="hasilpemeriksaan" placeholder="">
-@if ($cs > 0)
-{{ $assesment[0]->hasilpemeriksaan }}
-@endif
-</textarea>
+                <textarea type="text" class="form-control" id="hasilpemeriksaan" name="hasilpemeriksaan" placeholder="">@if ($cs > 0){{ $assesment[0]->hasilpemeriksaan }}@endif</textarea>
             </div>
         </form>
-
         <div class="accordion" id="accordionExample1">
             <div class="card">
                 <div class="card-header bg-info" id="headingOne">
@@ -67,7 +62,6 @@
                         </button>
                     </h2>
                 </div>
-
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample1">
                     <div class="card-body">
                         <div class="row">
@@ -137,7 +131,7 @@
                         </button>
                     </h2>
                 </div>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample1">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-5">
@@ -156,7 +150,7 @@
                                                 id="{{ $t->KODE_TARIF_DETAIL }}">
                                                 <td>{{ $t->NAMA_TARIF }}</td>
                                                 <td>IDR {{ number_format($t->TOTAL_TARIF_CURRENT, 2) }}</td>
-                                                <td>{{ $t->STOK_CURRENT}}</td>
+                                                <td>{{ $t->STOK_CURRENT }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -204,7 +198,7 @@
                     </h2>
                 </div>
                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                    data-parent="#accordionExample">
+                    data-parent="#accordionExample1">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-5">
@@ -264,30 +258,6 @@
                 </div>
             </div>
         </div>
-        {{-- <div hidden class="row">
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-header bg-danger">Pilih Obat</div>
-                    <div class="card-body">
-                        <button class="btn btn-success">+ Obat Racik</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-header bg-danger">Riwayat Resep Hari ini</div>
-                    <div class="card-body">
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header bg-warning">Obat Yang Dipilih</div>
-                    <div class="card-body">
-
-                    </div>
-                </div>
-            </div>
-        </div> --}}
         <button type="button" class="btn btn-success float-right" onclick="simpanassesment()"><i
                 class="bi bi-save mr-1"></i>Simpan</button>
         <button type="button" class="btn btn-danger float-right mr-2"><i class="bi bi-x mr-1"></i>Batal</button>
@@ -306,57 +276,82 @@
                 </button>
             </div>
             <div class="modal-body">
-                @foreach ($cm as $c)
-                    @php $ttv = explode('|',$datakunjungan[0]->tanda_vital ) @endphp
-                    <div class="accordion" id="accordionExample">
-                        <div class="card">
-                            <div class="card-header bg-info" id="headingOne">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-block text-left text-bold " type="button"
-                                        data-toggle="collapse" data-target="#collapse{{ $c->kode_kunjungan }}"
-                                        aria-expanded="true" aria-controls="collapseOne">
-                                        {{ $c->tgl_masuk }} | {{ $c->kode_paramedis }} | Diagnosa :
-                                        {{ $c->diagnosa }}
-                                    </button>
-                                </h2>
-                            </div>
-
-                            <div id="collapse{{ $c->kode_kunjungan }}" class="collapse" aria-labelledby="headingOne"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="inputAddress2">Keluhan Utama</label>
-                                        <textarea readonly type="text" class="form-control" id="keluhanutama" name="keluhanutama" placeholder="">{{ $c->keluhanutama }}</textarea>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="inputEmail4">Tekanan Darah</label>
-                                            <input readonly type="text" class="form-control" id="tekanandarah"
-                                                name="tekanandarah" value="{{ $ttv[0] }}">
-                                            <input hidden type="text" class="form-control" id="kodekunjungan"
-                                                name="kodekunjungan" value="">
+                @if (count($cm) > 0)
+                    @foreach ($cm as $c)
+                        @php $ttv = explode('|',$datakunjungan[0]->tanda_vital ) @endphp
+                        <div class="accordion" id="accordionExample3">
+                            <div class="card">
+                                <div class="card-header bg-info" id="headingOne{{ $c->kode_kunjungan }}">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-block text-left text-bold " type="button"
+                                            data-toggle="collapse" data-target="#collapse{{ $c->kode_kunjungan }}"
+                                            aria-expanded="true" aria-controls="collapseOne">
+                                            {{ $c->tgl_masuk }} | {{ $c->kode_paramedis }} | Diagnosa :
+                                            {{ $c->diagnosa }}
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapse{{ $c->kode_kunjungan }}" class="collapse"
+                                    aria-labelledby="headingOne{{ $c->kode_kunjungan }}"
+                                    data-parent="#accordionExample3">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="inputAddress2">Keluhan Utama</label>
+                                            <textarea readonly type="text" class="form-control" id="keluhanutama" name="keluhanutama" placeholder="">{{ $c->keluhanutama }}</textarea>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="inputPassword4">Suhu Tubuh</label>
-                                            <input readonly type="text" class="form-control" id="suhutubuh"
-                                                name="suhutubuh" value="{{ $ttv[1] }}">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail4">Tekanan Darah</label>
+                                                <input readonly type="text" class="form-control" id="tekanandarah"
+                                                    name="tekanandarah" value="{{ $ttv[0] }}">
+                                                <input hidden type="text" class="form-control" id="kodekunjungan"
+                                                    name="kodekunjungan" value="">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPassword4">Suhu Tubuh</label>
+                                                <input readonly type="text" class="form-control" id="suhutubuh"
+                                                    name="suhutubuh" value="{{ $ttv[1] }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputAddress2">Diagnosa</label>
-                                        <input readonly type="text" class="form-control" id="diagnosa"
-                                            name="diagnosa" placeholder="" value="{{ $c->diagnosa }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputAddress2">Hasil Pemeriksaan</label>
-                                        <textarea readonly type="text" class="form-control" id="hasilpemeriksaan" name="hasilpemeriksaan"
-                                            placeholder="">{{ $c->hasilpemeriksaan }}</textarea>
+                                        <div class="form-group">
+                                            <label for="inputAddress2">Diagnosa</label>
+                                            <input readonly type="text" class="form-control" id="diagnosa"
+                                                name="diagnosa" placeholder="" value="{{ $c->diagnosa }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress2">Hasil Pemeriksaan</label>
+                                            <textarea readonly type="text" class="form-control" id="hasilpemeriksaan" name="hasilpemeriksaan"
+                                                placeholder="">{{ $c->hasilpemeriksaan }}</textarea>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header bg-danger">Tindakan & Obat</div>
+                                            <div class="card-body">
+                                                <table class="table table-sm table-bordered table-hover">
+                                                    <thead>
+                                                        <th>Nama Tarif</th>
+                                                        <th>Keterangan</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($rto as $rt )
+                                                        @if($rt->kode_kunjungan == $c->kodekunjungan)
+                                                            <tr>
+                                                                <td>{{ $rt->NAMA_TARIF}}</td>
+                                                                <td>{{ $rt->catatan}}</td>
+                                                            </tr>
+                                                        @endif
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @else
+                    Data tidak ditemukan !
+                @endif
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -370,6 +365,7 @@
     $(document).ready(function() {
         kodekunjungan = $('#kodekunjungan').val()
         ambil_riwayat_tindakan(kodekunjungan)
+        ambil_riwayat_farmasi(kodekunjungan)
     })
     $(function() {
         $('#tabeltindakan').DataTable({
@@ -470,12 +466,15 @@
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
                 $(wrapper).append(
-                    '<div class="form-row text-xs"><div class="form-group col-md-4"><label for="">( Ceklis jika obat paket ) Nama obat</label><div class="input-group mb-3"><div class="input-group-prepend"><div class="input-group-text"><input type="checkbox" name="paket" aria-label="Checkbox for following text input"></div></div><input readonly type="text" name="namatindakan" value="'+namatindakan+'"class="form-control" aria-label="Text input with checkbox"></div><input hidden readonly type="" class="form-control form-control-sm" id="" name="kodelayanan" value="' +
-                    kodedetail +'"><input hidden readonly type="" class="form-control form-control-sm" id="" name="kodelayanan" value="' +
+                    '<div class="form-row text-xs"><div class="form-group col-md-3"><label for="inputPassword4">Silahkan Pilih</label> <select class="form-control" id="paket" name="paket"><option value="0">Paket</option><option value="1">Non-Paket</option></select></div><div class="form-group col-md-4"><label for="">Nama obat</label><div class="input-group mb-3"><input readonly type="text" name="namatindakan" value="' +
+                    namatindakan +
+                    '"class="form-control form-control-sm" aria-label="Text input with checkbox"></div><input hidden readonly type="" class="form-control form-control-sm" id="" name="kodelayanan" value="' +
+                    kodedetail +
+                    '"><input hidden readonly type="" class="form-control form-control-sm" id="" name="kodelayanan" value="' +
                     kodeheader +
                     '"></div><div class="form-group col-md-2"><label for="inputPassword4">Tarif</label><input readonly type="" class="form-control form-control-sm" id="" name="tarif" value="' +
                     tarif +
-                    '"></div><div class="form-group col-md-1"><label for="inputPassword4">Jumlah</label><input type="" class="form-control form-control-sm" id="" name="qty" value="1"></div><div class="form-group col-md-3"><label for="inputPassword4">Aturan Pakai</label><input type="" class="form-control form-control-sm" id="" name="aturanpakai" value=""></div><div class="form-group col-md-1"></div><i class="bi bi-x-square remove_field form-group col-md-1 text-danger" kode2="' +
+                    '"></div><div class="form-group col-md-1"><label for="inputPassword4">Jumlah</label><input type="" class="form-control form-control-sm" id="" name="qty" value="1"></div><div class="form-group col-md-4"><label for="inputPassword4">Aturan Pakai</label><textarea type="" class="form-control form-control-sm" id="" name="aturanpakai" value=""></textarea></div><div class="form-group col-md-1"></div><i class="bi bi-x-square remove_field form-group col-md-1 text-danger" kode2="' +
                     kodedetail + '"></i></div>'
                 );
                 $(wrapper).on("click", ".remove_field", function(e) { //user click on remove
@@ -591,6 +590,20 @@
             url: '<?= route('ambil_riwayat_tindakan') ?>',
             success: function(response) {
                 $('.v_r_tindakan').html(response);
+            }
+        });
+    }
+
+    function ambil_riwayat_farmasi(kodekunjungan) {
+        $.ajax({
+            type: 'post',
+            data: {
+                _token: "{{ csrf_token() }}",
+                kodekunjungan
+            },
+            url: '<?= route('ambil_riwayat_farmasi') ?>',
+            success: function(response) {
+                $('.v_r_obat').html(response);
             }
         });
     }
