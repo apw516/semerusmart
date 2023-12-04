@@ -14,7 +14,7 @@
             <tr>
                 <td>{{ $u->username }}</td>
                 <td>{{ $u->nama }}</td>
-                <td>@if($u->hak_akses == 1) Super Admin @elseif ($u->hak_akses == 2) Admin @endif</td>
+                <td>@if($u->hak_akses == 1) Super Admin @elseif ($u->hak_akses == 2) Admin @elseif ($u->hak_akses == 3) Pendaftaran @endif</td>
                 <td>{{ $u->unit }}</td>
                 <td>{{ $u->kode_paramedis }}</td>
                 <td>{{ $u->username }}</td>

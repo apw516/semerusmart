@@ -128,6 +128,8 @@
     }
 
     function bayarfinal() {
+        spinner = $('#loader2');
+        spinner.show();
         gt = $('#grandtotal_layanan_2').val()
         kodekunjungan = $('#kodekunjungan').val()
         uangbayar = $('#uangbayar').val()

@@ -50,7 +50,7 @@ class PelayananController extends Controller
         $rto = DB::select('SELECT a.`kode_kunjungan`,b.`kode_tarif_detail`,c.NAMA_TARIF,a.catatan,b.`jumlah_layanan` FROM ts_layanan_header a
         LEFT OUTER JOIN ts_layanan_detail b ON a.`id` = b.row_id_header
         LEFT OUTER JOIN mt_tarif_header c ON b.`kode_tarif_detail` = c.`KODE_TARIF_HEADER`
-        WHERE a.`kode_kunjungan` = ? AND b.`status_layanan_detail` != ?',[$request->kodekunjungan,8]);
+        WHERE a.`kode_kunjungan` = ? AND b.`status_layanan_detail` != ?', [$request->kodekunjungan, 8]);
         $tarif = DB::SELECT('SELECT a.KODE_TARIF_HEADER,KODE_TARIF_DETAIL,NAMA_TARIF,TOTAL_TARIF_CURRENT,TOTAL_TARIF_NEW FROM mt_tarif_header a
         INNER JOIN mt_tarif_detail b ON a.`KODE_TARIF_HEADER` = b.`KODE_TARIF_HEADER`
         WHERE b.`KELAS_TARIF` = 3 AND a.KELOMPOK_TARIF_ID < 3');
@@ -301,6 +301,7 @@ class PelayananController extends Controller
                     'grantotal_layanan' => $tarif1,
                     'kode_dokter1' => '12',
                     'status_layanan_detail' => '1',
+                    'aturan_pakai' => $a['aturanpakai'],
                     'tgl_layanan_detail' => $this->get_now(),
                     'tgl_layanan_detail_2' => $this->get_now(),
                     'tagihan_pribadi' => $a['qty'] * $tarif,
@@ -448,28 +449,7 @@ class PelayananController extends Controller
         $id_detail = $request->kode;
         $ts_layanan_detail = DB::select('select * from ts_layanan_detail where id = ?', [$id_detail]);
         $ts_layanan_header = DB::select('select * from ts_layanan_header where id = ?', [$ts_layanan_detail[0]->row_id_header]);
-        $cek_layanan_header = DB::select('select * from ts_layanan_header where kode_kunjungan = ? and status_layanan = ?', [$ts_layanan_header[0]->kode_kunjungan, '8']);
-        if (count($cek_layanan_header) > 0) {
-            $cek = 0;
-            foreach ($cek_layanan_header as $c) {
-                $detail = db::Select('select * from ts_layanan_detail where row_id_header = ?', [$c->id]);
-                foreach ($detail as $dt) {
-                    if ($dt->status_layanan_detail == 1) {
-                        $cek = $cek + 1;
-                    }
-                }
-            }
-            if ($cek > 0) {
-                $status_kj = 3;
-            } else {
-                $status_kj = 4;
-            }
-            $ts_kunjungan = [
-                'status_kunjungan' => $status_kj
-            ];
-            ts_kunjungan::where('kode_kunjungan', $ts_layanan_header[0]->kode_kunjungan)
-                ->update($ts_kunjungan);
-        }
+        $cek_layanan_header = DB::select('select * from ts_layanan_header where kode_kunjungan = ? and status_layanan != ?', [$ts_layanan_header[0]->kode_kunjungan, 8]);
         if ($ts_layanan_header[0]->status_layanan == 2) {
             $data = [
                 'kode' => 500,
@@ -510,6 +490,29 @@ class PelayananController extends Controller
             ];
             ts_layanan_detail::where('id', $id_detail)->update($data_retur);
             ts_layanan_header::where('id', $ts_layanan_detail[0]->row_id_header)->update($data_header);
+
+            if (count($cek_layanan_header) > 0) {
+                $cek = 0;
+                foreach($cek_layanan_header as $ck){
+                    if($ck->status_layanan == 1){
+                        $cek++;
+                    }
+                }
+                if($cek > 1){
+                    $status_kj = 3;
+                }else{
+                    $status_kj = 4;
+                }
+            } else {
+                $status_kj = 2;
+            }
+
+
+            $ts_kunjungan = [
+                'status_kunjungan' => $status_kj
+            ];
+            ts_kunjungan::where('kode_kunjungan', $ts_layanan_header[0]->kode_kunjungan)
+                ->update($ts_kunjungan);
             $data = [
                 'kode' => 200,
                 'message' => 'Data berhasil disimpan'
@@ -522,29 +525,7 @@ class PelayananController extends Controller
         $id_detail = $request->kode;
         $ts_layanan_detail = DB::select('select * from ts_layanan_detail where id = ?', [$id_detail]);
         $ts_layanan_header = DB::select('select * from ts_layanan_header where id = ?', [$ts_layanan_detail[0]->row_id_header]);
-        $cek_layanan_header = DB::select('select * from ts_layanan_header where kode_kunjungan = ? and status_layanan = ?', [$ts_layanan_header[0]->kode_kunjungan, '8']);
-        // dd($ts_layanan_detail);
-        if (count($cek_layanan_header) > 0) {
-            $cek = 0;
-            foreach ($cek_layanan_header as $c) {
-                $detail = db::Select('select * from ts_layanan_detail where row_id_header = ?', [$c->id]);
-                foreach ($detail as $dt) {
-                    if ($dt->status_layanan_detail == 1) {
-                        $cek = $cek + 1;
-                    }
-                }
-            }
-            if ($cek > 0) {
-                $status_kj = 3;
-            } else {
-                $status_kj = 4;
-            }
-            $ts_kunjungan = [
-                'status_kunjungan' => $status_kj
-            ];
-            ts_kunjungan::where('kode_kunjungan', $ts_layanan_header[0]->kode_kunjungan)
-                ->update($ts_kunjungan);
-        }
+        $cek_layanan_header = DB::select('select * from ts_layanan_header where kode_kunjungan = ? and status_layanan != ?', [$ts_layanan_header[0]->kode_kunjungan, '8']);
 
         if ($ts_layanan_header[0]->status_layanan == 2) {
             $data = [
@@ -570,7 +551,7 @@ class PelayananController extends Controller
                 'tagihan_pribadi' => 0,
                 'status_layanan_detail' => 8,
             ];
-            $cek_ts_layanan_detail = DB::select('select * from ts_layanan_detail where row_id_header = ? and status_layanan_detail = ?', [$ts_layanan_header[0]->id,1]);
+            $cek_ts_layanan_detail = DB::select('select * from ts_layanan_detail where row_id_header = ? and status_layanan_detail = ?', [$ts_layanan_header[0]->id, 1]);
             $total_layanan = $ts_layanan_header[0]->total_layanan;
             $total_layanan_detail = $ts_layanan_detail[0]->grantotal_layanan;
             $total_layanan_baru = $total_layanan - $total_layanan_detail;
@@ -604,11 +585,11 @@ class PelayananController extends Controller
                 'harga_beli_history' =>  $cek_ti_kartu_stok[0]->harga_beli_history,
             ];
             ti_kartu_stok::create($ti_kartu_stok);
-             //update tarif detail
-             $data_tr_detail = [
+            //update tarif detail
+            $data_tr_detail = [
                 'STOK_CURRENT' => $cek_ti_kartu_stok[0]->stok_current + $ts_layanan_detail[0]->jumlah_layanan
             ];
-            Tarif_detail::where('KODE_TARIF_HEADER',$tarif_header[0]->KODE_TARIF_HEADER)->where('KELAS_TARIF',3)->update($data_tr_detail);
+            Tarif_detail::where('KODE_TARIF_HEADER', $tarif_header[0]->KODE_TARIF_HEADER)->where('KELAS_TARIF', 3)->update($data_tr_detail);
             $cek_log_sediaan = DB::select('select * from log_persediaan where id_detail = ?', [$ts_layanan_detail[0]->id]);
             foreach ($cek_log_sediaan as $c) {
                 $stok_out = $c->stok_out;
@@ -621,8 +602,31 @@ class PelayananController extends Controller
                 $data_stok_sediaan = [
                     'stok' => $stok_current
                 ];
-                mt_sediaan::where('id',$c->id_sediaan)->update($data_stok_sediaan);
+                mt_sediaan::where('id', $c->id_sediaan)->update($data_stok_sediaan);
             }
+
+            if (count($cek_layanan_header) > 0) {
+                $cek = 0;
+                foreach($cek_layanan_header as $ck){
+                    if($ck->status_layanan == 1){
+                        $cek++;
+                    }
+                }
+                if($cek > 1){
+                    $status_kj = 3;
+                }else{
+                    $status_kj = 4;
+                }
+            } else {
+                $status_kj = 2;
+            }
+
+
+            $ts_kunjungan = [
+                'status_kunjungan' => $status_kj
+            ];
+            ts_kunjungan::where('kode_kunjungan', $ts_layanan_header[0]->kode_kunjungan)
+                ->update($ts_kunjungan);
             $data = [
                 'kode' => 200,
                 'message' => 'Data berhasil disimpan'

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\modelkasirheader;
 use App\Models\ts_kunjungan;
 use App\Models\ts_layanan_header;
+use App\Models\ts_layanan_detail;
 
 class KeuanganController extends Controller
 {
@@ -110,6 +111,11 @@ class KeuanganController extends Controller
                     'sub_total' => $dt->grantotal_layanan
                 ];
                 $kasir_detail = modelkasirdetail::create($kasir_detail);
+
+                $ts_layanan_detail = [
+                    'status_layanan_detail' => '2'
+                ];
+                ts_layanan_detail::where('id_layanan_detail', $dt->id_layanan_detail)->update($ts_layanan_detail);
             }
         }
         $row_id_header = $layanan_header[0]->id;
