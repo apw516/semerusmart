@@ -68,6 +68,30 @@ class MasterController extends Controller
         ];
         echo json_encode($data);
     }
+    public function simpaneditkary(Request $request)
+    {
+        $data = json_decode($_POST['data'], true);
+        foreach ($data as $nama) {
+            $index =  $nama['name'];
+            $value =  $nama['value'];
+            $dataSet[$index] = $value;
+        }
+        // $kode_par = $this->get_kode_paramedis();
+        $datapar = [
+            // 'kode_paramedis' => $kode_par,
+            'nama_paramedis' => $dataSet['namakary'],
+            'unit' => $dataSet['unit'],
+            'sip_dr' => $dataSet['sip'],
+        ];
+        mt_paramedis::where('ID', $dataSet['idkary'])
+            ->update($datapar);
+        // mt_paramedis::create($datapar);
+        $data = [
+            'kode' => 200,
+            'message' => 'Data berhasil disimpan'
+        ];
+        echo json_encode($data);
+    }
     public function user()
     {
         $menu = 'Data User';
@@ -172,6 +196,26 @@ class MasterController extends Controller
             'menu',
             'kelompok',
             'dist'
+        ]));
+    }
+    public function stokfarmasi()
+    {
+        $menu = 'STOK FARMASI';
+        $now = $this->get_date();
+        return view('adminmaster.stokfarmasi', compact([
+            'menu',
+            'now'
+        ]));
+    }
+    public function ambil_kartu_Stok(Request $request)
+    {
+        $stok = DB::SELECT('SELECT e.`tgl_stok`,e.kode_barang,f.`nama_barang`, stok_last,stok_in,stok_out,stok_current
+        FROM ti_kartu_stok e
+        LEFT OUTER JOIN mt_barang f ON e.`kode_barang` = f.`kode_barang`
+        WHERE NO = (SELECT MAX(NO) FROM ti_kartu_stok WHERE kode_barang = e.kode_barang)
+        AND date(e.`tgl_stok`) BETWEEN ? AND ?',[$request->tanggalawal,$request->tanggalakhir]);
+        return view('adminmaster.tabelstok',compact([
+            'stok'
         ]));
     }
     public function distributor()
@@ -286,14 +330,14 @@ class MasterController extends Controller
         $isi_1 = 0;
         $isi_2 = 0;
         $isi_3 = 0;
-        if($header['isi_satuan_besar'] > 0){
+        if ($header['isi_satuan_besar'] > 0) {
             $j1 = $header['isi_satuan_besar'] * $mt_barang[0]->isi_satuan_sedang;
             $isi_1 = $j1 * $mt_barang[0]->isi_satuan_kecil;
         }
-        if($header['isi_satuan_sedang'] > 0){
+        if ($header['isi_satuan_sedang'] > 0) {
             $isi_2 = $header['isi_satuan_sedang'] * $mt_barang[0]->isi_satuan_kecil;
         }
-        if($header['isi_satuan_kecil'] > 0){
+        if ($header['isi_satuan_kecil'] > 0) {
             $isi_3 = $header['isi_satuan_kecil'];
         }
         $stok_in = $isi_1 + $isi_2 + $isi_3;
@@ -337,7 +381,7 @@ class MasterController extends Controller
                 'kode_unit' => '4002',
                 'kode_barang' => $header['kodebarang'],
                 'stok_last' => $stok_last,
-                'stok_in' => $header['isi_satuan_kecil'],
+                'stok_in' => $stok_in,
                 'stok_current' => $stok_current,
                 'harga_beli' => $header['hargabeli'],
                 'input_by' => auth()->user()->id,
@@ -561,5 +605,14 @@ class MasterController extends Controller
         $date = $dt->toDateString();
         $now = $date;
         return $now;
+    }
+    public function ambil_data_karyawan(Request $request)
+    {
+        $unit = DB::select('select * from mt_unit');
+        $mt_paramedis = DB::selecT('select * from mt_paramedis where id = ?',[$request->id]);
+        return view('adminmaster.formedit_kary',compact([
+            'unit',
+            'mt_paramedis'
+        ]));
     }
 }

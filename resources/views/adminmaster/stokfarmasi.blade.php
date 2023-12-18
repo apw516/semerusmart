@@ -4,36 +4,30 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Riwayat Pelayanan</h1>
-                </div><!-- /.col -->
+                    <h1 class="m-0">Kartu Stok Farmasi</h1>
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Riwayat Pelayanan</li>
+                        <li class="breadcrumb-item active">Kartu Stok Farmasi</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <section class="content">
+      <!-- Main content -->
+      <section class="content">
         <div class="container-fluid">
             <form class="form-inline">
                 <div class="form-group mx-sm-3 mb-2">
                     <label for="inputPassword2" class="sr-only">Password</label>
-                    <input type="date" class="form-control" id="tanggalawal" placeholder="Password"
-                        value="{{ $now }}">
+                    <input type="date" class="form-control" id="tanggalawal" placeholder="Password" value="{{ $now }}">
                 </div>
                 <div class="form-group mx-sm-3 mb-2">
                     <label for="inputPassword2" class="sr-only">Password</label>
-                    <input type="date" class="form-control" id="tanggalakhir" placeholder="Password"
-                        value="{{ $now }}">
+                    <input type="date" class="form-control" id="tanggalakhir" placeholder="Password" value="{{ $now }}">
                 </div>
-                <button type="button" class="btn btn-primary mb-2" onclick="tampilriwayat_pelayanan()"><i
-                        class="bi bi-search mr-1"></i>Riwayat
-                    Pelayanan</button>
+                <button type="button" class="btn btn-primary mb-2" onclick="tampilkartu_stok()"><i class="bi bi-search mr-1"></i>Stok Farmasi</button>
             </form>
             <div class="VRP">
 
@@ -44,24 +38,23 @@
         $(document).ready(function() {
             tanggalawal = $('#tanggalawal').val()
             tanggalakhir = $('#tanggalakhir').val()
-            riwayatpelayanan_dok(tanggalawal, tanggalakhir)
+            ambilkartustok(tanggalawal,tanggalakhir)
         })
-
-        function tampilriwayat_pelayanan() {
+        function tampilkartu_stok()
+        {
             tanggalawal = $('#tanggalawal').val()
             tanggalakhir = $('#tanggalakhir').val()
-            riwayatpelayanan_dok(tanggalawal, tanggalakhir)
+            ambilkartustok(tanggalawal,tanggalakhir)
         }
-
-        function riwayatpelayanan_dok(tanggalawal, tanggalakhir) {
+        function ambilkartustok(tanggalawal,tanggalakhir)
+        {
             $.ajax({
                 type: 'post',
                 data: {
                     _token: "{{ csrf_token() }}",
-                    tanggalawal,
-                    tanggalakhir
+                    tanggalawal,tanggalakhir
                 },
-                url: '<?= route('riwayatpelayanan_dok') ?>',
+                url: '<?= route('ambil_kartu_Stok') ?>',
                 success: function(response) {
                     $('.VRP').html(response);
                     // $('#daftarpxumum').attr('disabled', true);

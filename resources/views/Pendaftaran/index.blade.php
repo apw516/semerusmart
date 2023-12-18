@@ -232,6 +232,28 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modaleditpasien" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title" id="staticBackdropLabel"> <i class="bi bi-person-plus-fill mr-1"></i>Edit Data Pasien</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body formeditpasien">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                            class="bi bi-x mr-1"></i>Close</button>
+                    <button type="button" class="btn btn-primary" onclick="simpaneditpasien()"><i
+                            class="bi bi-save mr-1"></i> Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="modalpendaftaran" data-backdrop="static" data-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -433,6 +455,49 @@
                     data: JSON.stringify(data),
                 },
                 url: '<?= route('simpanpasienbaru') ?>',
+                error: function(data) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ooops....',
+                        text: 'Sepertinya ada masalah......',
+                        footer: ''
+                    })
+                    spinner.hide();
+                },
+                success: function(data) {
+                    spinner.hide();
+                    if (data.kode == 500) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oopss...',
+                            text: data.message,
+                            footer: ''
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'OK',
+                            text: data.message,
+                            footer: ''
+                        })
+                        location.reload()
+                    }
+                }
+            });
+        }
+        function simpaneditpasien() {
+            var data = $('.form-edit-pasien').serializeArray();
+            spinner = $('#loader2');
+            spinner.show();
+            $.ajax({
+                async: true,
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    data: JSON.stringify(data),
+                },
+                url: '<?= route('simpaneditpasien2') ?>',
                 error: function(data) {
                     Swal.fire({
                         icon: 'error',

@@ -50,7 +50,7 @@
                         </p>
                     </a>
                 </li>
-                <li hidden class="nav-item">
+                <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link @if($menu == 'Dashboard farmasi' ) active @endif">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -116,6 +116,23 @@
                     </a>
                 </li>
                 @endif
+                <li class="nav-header">REPORTING</li>
+                <li class="nav-item">
+                    <a href="{{ route('pemakaianobat') }}" class="nav-link @if($menu == 'Pemakaian Obat' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Pemakaian Obat
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('layananresep') }}" class="nav-link @if($menu == 'Layanan Resep' ) active @endif">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Transaksi Kasir
+                        </p>
+                    </a>
+                </li>
                 <li hidden class="nav-header">FARMASI</li>
                 <li hidden class="nav-item">
                     <a href="{{ route('layananresep') }}" class="nav-link @if($menu == 'Layanan Resep' ) active @endif">
@@ -212,6 +229,14 @@
                         <i class="nav-icon fas fa-table"></i>
                         <p>
                             Master Barang
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('stokfarmasi')}}" class="nav-link @if($menu == 'STOK FARMASI' ) active @endif">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                           Kartu Stok Farmasi
                         </p>
                     </a>
                 </li>

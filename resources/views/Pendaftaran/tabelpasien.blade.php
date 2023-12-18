@@ -13,7 +13,10 @@
                    <td>{{ $p->nik }}</td>
                    <td>{{ $p->nama_px }}</td>
                    <td>{{ $p->alamatnya}}</td>
-                   <td><button class="btn btn-success btn-sm pilihpasien"  data-toggle="modal" norm="{{ $p->no_rm }}" data-target="#modalpendaftaran">Daftar</button></td>
+                   <td>
+                    <button class="btn btn-warning btn-sm editpasien"  data-toggle="modal" norm="{{ $p->no_rm }}" data-target="#modaleditpasien"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-success btn-sm pilihpasien"  data-toggle="modal" norm="{{ $p->no_rm }}" data-target="#modalpendaftaran"><i class="bi bi-r-square"></i></button>
+                </td>
                </tr>
            @endforeach
        </tbody>
@@ -43,6 +46,24 @@
                 url: '<?= route('ambil_form_pendaftaran') ?>',
                 success: function(response) {
                     $('.formnya_pendaftaran').html(response);
+                    spinner.hide()
+                    // $('#daftarpxumum').attr('disabled', true);
+                }
+            });
+       })
+       $('#tabelpasien').on('click', '.editpasien', function() {
+            rm = $(this).attr('norm')
+            spinner = $('#loader2');
+            spinner.show();
+            $.ajax({
+                type: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    rm
+                },
+                url: '<?= route('ambil_data_pasien_edit') ?>',
+                success: function(response) {
+                    $('.formeditpasien').html(response);
                     spinner.hide()
                     // $('#daftarpxumum').attr('disabled', true);
                 }

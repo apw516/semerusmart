@@ -15,23 +15,48 @@
             </div>
         </div>
     </div>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+            <form class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="inputPassword2" class="sr-only">Password</label>
+                    <input type="date" class="form-control" id="tanggalawal" placeholder="Password" value="{{ $now }}">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="inputPassword2" class="sr-only">Password</label>
+                    <input type="date" class="form-control" id="tanggalakhir" placeholder="Password" value="{{ $now }}">
+                </div>
+                <button type="button" class="btn btn-primary mb-2" onclick="tampilriwayat_kasir()"><i class="bi bi-search mr-1"></i>Laporan Pendapatan Kasir</button>
+            </form>
+            <div class="VRP">
+
+            </div>
+        </div>
+    </section>
     <script>
         $(document).ready(function() {
-            get_antrian_kasir()
+            tanggalawal = $('#tanggalawal').val()
+            tanggalakhir = $('#tanggalakhir').val()
+            tampillaporan_kasir(tanggalawal,tanggalakhir)
         })
-        function get_antrian_kasir()
+        function tampilriwayat_kasir()
         {
-            tglawal = $('#tanggalawal').val()
-            tglakhir = $('#tanggalakhir').val()
+            tanggalawal = $('#tanggalawal').val()
+            tanggalakhir = $('#tanggalakhir').val()
+            tampillaporan_kasir(tanggalawal,tanggalakhir)
+        }
+        function tampillaporan_kasir(tanggalawal,tanggalakhir)
+        {
             $.ajax({
                 type: 'post',
                 data: {
                     _token: "{{ csrf_token() }}",
-                    tglawal,tglakhir
+                    tanggalawal,tanggalakhir
                 },
-                url: '<?= route('ambil_antrian_kasir') ?>',
+                url: '<?= route('ambil_laporan_kasir') ?>',
                 success: function(response) {
-                    $('.v_tabel_antrian_kasir').html(response);
+                    $('.VRP').html(response);
                     // $('#daftarpxumum').attr('disabled', true);
                 }
             });

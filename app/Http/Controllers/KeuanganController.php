@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\modelkasirdetail;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -95,15 +96,16 @@ class KeuanganController extends Controller
             'kode_invoice' => $kodekunjungan,
             'tipe_trans_kasir' => '1',
             'tgl_trans_kasir' => $this->get_now(),
-            'total_trans_kasir' => $uangbayar,
             'total_uang' => $uangbayar,
             'kembalian' => $kembalian,
             'pic' => auth()->user()->id,
         ];
         $kasir_header = modelkasirheader::create($kasir_header);
+        $total_trans_kasir = 0;
         foreach ($layanan_header as $lh) {
             $layanan_detail = DB::select('select * from ts_layanan_detail where row_id_header = ? and status_layanan_detail = ?', [$lh->id, 1]);
-            foreach($layanan_detail as $dt){
+            $total_trans_kasir = $lh->total_layanan + $total_trans_kasir;
+            foreach ($layanan_detail as $dt) {
                 $kasir_detail = [
                     'kode_kasir_header' =>  $kode_kasir_header,
                     'kode_layanan_header' => $dt->kode_layanan_header,
@@ -111,7 +113,6 @@ class KeuanganController extends Controller
                     'sub_total' => $dt->grantotal_layanan
                 ];
                 $kasir_detail = modelkasirdetail::create($kasir_detail);
-
                 $ts_layanan_detail = [
                     'status_layanan_detail' => '2'
                 ];
@@ -125,6 +126,10 @@ class KeuanganController extends Controller
         $ts_ly_header = [
             'status_layanan' => 2,
         ];
+        $update_kasir_header = [
+            'total_trans_kasir' => $total_trans_kasir
+        ];
+        modelkasirheader::where('id_trans_kasir', $kasir_header->id)->update($update_kasir_header);
         ts_kunjungan::where('kode_kunjungan', $kodekunjungan)
             ->update($ts_kunjungan);
         ts_layanan_header::where('kode_kunjungan', $kodekunjungan)
@@ -181,5 +186,18 @@ class KeuanganController extends Controller
         }
         date_default_timezone_set('Asia/Jakarta');
         return 'KSR' . date('ymd') . $kd;
+    }
+    public function ambil_laporan_kasir(Request $request)
+    {
+        $tgl_awal = $request->tanggalawal;
+        $tgl_akhir = $request->tanggalakhir;
+        $hasil = DB::select('SELECT b.`no_rm`,fc_nama_px(b.`no_rm`) AS nama_pasien,tgl_trans_kasir,total_trans_kasir,total_uang,kembalian,a.`kode_kasir_header` FROM ts_kasir_header a
+       LEFT OUTER JOIN ts_kunjungan b ON a.`kode_invoice` = b.`kode_kunjungan`
+       WHERE DATE(tgl_trans_kasir) BETWEEN ? AND ?', [$tgl_awal, $tgl_akhir]);
+        return view('keuangan.tabellaporankasir', compact(
+            [
+                'hasil'
+            ]
+        ));
     }
 }

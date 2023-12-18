@@ -336,7 +336,7 @@
                                                         @if($rt->kode_kunjungan == $c->kodekunjungan)
                                                             <tr>
                                                                 <td>{{ $rt->NAMA_TARIF}}</td>
-                                                                <td>{{ $rt->catatan}}</td>
+                                                                <td>{{ $rt->catatan}} | {{ $rt->aturan_pakai }}</td>
                                                             </tr>
                                                         @endif
                                                         @endforeach

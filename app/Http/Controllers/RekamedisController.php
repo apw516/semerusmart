@@ -32,8 +32,10 @@ class RekamedisController extends Controller
     public function riwayatpendaftaran()
     {
         $menu = 'Riwayat Pendaftaran';
+        $now = $this->get_date();
         return view('Pendaftaran.riwayatpendaftaran', compact([
-            'menu'
+            'menu',
+            'now'
         ]));
     }
     public function AmbilDataPasien()
@@ -41,6 +43,26 @@ class RekamedisController extends Controller
         $pasien = DB::select('select *,fc_alamat(no_rm) as alamatnya from mt_pasien where date(tgl_entry) = curdate()');
         return view('pendaftaran.tabelpasien', compact([
             'pasien'
+        ]));
+    }
+    public function ambil_data_pasien_edit(Request $request)
+    {
+        $agama = DB::select('select * from mt_agama');
+        $pendidikan = DB::select('select * from mt_pendidikan');
+        $pekerjaan = DB::select('select * from mt_pekerjaan');
+        $status_perkawinan = DB::select('select * from mt_status_perkawinan');
+        $pasien = DB::select('SELECT a.*,b.`name` AS prov,c.`name` AS kab, d.`name` AS kec,e.`name` AS desaa FROM mt_pasien a
+        LEFT OUTER JOIN mt_lokasi_provinces b ON a.`propinsi` = b.`id`
+        LEFT OUTER JOIN mt_lokasi_regencies c ON a.`kotakab` = c.`id`
+        LEFT OUTER JOIN mt_lokasi_districts d ON a.`kecamatan` = d.id
+        LEFT OUTER JOIN mt_lokasi_villages e ON a.`desa` = e.id
+        WHERE a.no_rm = ?', [$request->rm]);
+        return view('pendaftaran.form_edit_pasien', compact([
+            'pasien',
+            'agama',
+            'pendidikan',
+            'pekerjaan',
+            'status_perkawinan',
         ]));
     }
     public function AmbilDataPasienCari(Request $request)
@@ -62,16 +84,16 @@ class RekamedisController extends Controller
     public function UpdateAntrian(Request $request)
     {
         $kode = $request->kodekunjungan;
-        $cek = DB::select('select * from ts_kunjungan where kode_kunjungan = ? ',[$kode]);
-        if($cek[0]->status_kunjungan > 1){
-            if($cek[0]->status_kunjungan == 4){
+        $cek = DB::select('select * from ts_kunjungan where kode_kunjungan = ? ', [$kode]);
+        if ($cek[0]->status_kunjungan > 1) {
+            if ($cek[0]->status_kunjungan == 4) {
                 $data = [
                     'kode' => 500,
                     'message' => 'Pelayan pasien sudah selesai ...',
                 ];
                 echo json_encode($data);
                 die;
-            }else{
+            } else {
                 $data = [
                     'kode' => 500,
                     'message' => 'Pasien sedang dalam pelayanan',
@@ -90,7 +112,7 @@ class RekamedisController extends Controller
     }
     public function AmbilRiwayatDaftar(Request $request)
     {
-        $datakunjungan = DB::select('select *, fc_nama_px(no_rm) as  nama_pasien,fc_alamat(no_rm) as alamat from ts_kunjungan where DATE(tgl_masuk) BETWEEN ? AND ?',[$request->tanggalawal,$request->tanggalakhir]);
+        $datakunjungan = DB::select('select *, fc_nama_px(no_rm) as  nama_pasien,fc_alamat(no_rm) as alamat from ts_kunjungan where DATE(tgl_masuk) BETWEEN ? AND ?', [$request->tanggalawal, $request->tanggalakhir]);
         return view('Pendaftaran.tabelriwayatpendaftaran', compact([
             'datakunjungan'
         ]));
@@ -279,6 +301,131 @@ class RekamedisController extends Controller
         ];
         echo json_encode($data);
     }
+    public function simpaneditpasien(Request $request)
+    {
+        $data = json_decode($_POST['data'], true);
+        foreach ($data as $nama) {
+            $index =  $nama['name'];
+            $value =  $nama['value'];
+            $dataSet[$index] = $value;
+        }
+        if ($dataSet['namapx'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'Nama pasien tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if ($dataSet['tempatlahir'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'Tempat Lahir tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if ($dataSet['tanggallahir'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'Tanggal Lahir tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if ($dataSet['agama'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'Agama tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if ($dataSet['statusperkawinan'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'Status perkawinan tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if ($dataSet['pendidikan'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'Pendidikan tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if ($dataSet['pekerjaan'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'Pekerjaan tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if ($dataSet['kodeprovinsi_edit'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'Provinsi tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if ($dataSet['kodekabupaten_edit'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'Kabupaten tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if ($dataSet['kodekecamatan_edit'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'kecamatan tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        if ($dataSet['kodedesa_edit'] == '') {
+            $data = [
+                'kode' => 500,
+                'message' => 'Desa tidak boleh kosong !'
+            ];
+            echo json_encode($data);
+            die;
+        }
+        $data_pasien = [
+            'no_rm' => $dataSet['nomorrm'],
+            'nik' => $dataSet['nik'],
+            'no_asuransi' => $dataSet['nomorasuransi'],
+            'nama_px' => $dataSet['namapx'],
+            'jenis_kelamin' => $dataSet['jeniskelamin'],
+            'tempat_lahir' => $dataSet['tempatlahir'],
+            'tgl_lahir' => $dataSet['tanggallahir'],
+            'desa' => $dataSet['kodedesa_edit'],
+            'kecamatan' => $dataSet['kodekecamatan_edit'],
+            'kotakab' => $dataSet['kodekabupaten_edit'],
+            'propinsi' => $dataSet['kodeprovinsi_edit'],
+            'negara' => $dataSet['nik'],
+            'agama' => $dataSet['agama'],
+            'pekerjaan' => $dataSet['pekerjaan'],
+            'pendidikan' => $dataSet['pendidikan'],
+            'status_perkawinan' => $dataSet['statusperkawinan'],
+            'update_by' => auth()->user()->id,
+            'id_profile' => auth()->user()->id_profile
+        ];
+        mt_pasien::where('no_rm', $dataSet['nomorrm'])
+            ->update($data_pasien);
+        // mt_pasien::create($data_pasien);
+        $data = [
+            'kode' => 200,
+            'message' => 'Data berhasil disimpan'
+        ];
+        echo json_encode($data);
+    }
     public function SimpanPendaftaran(Request $request)
     {
         $data = json_decode($_POST['data'], true);
@@ -288,7 +435,7 @@ class RekamedisController extends Controller
             $dataSet[$index] = $value;
         }
         $cek_rm = DB::select('select * from ts_kunjungan where no_rm = ?', [$dataSet['nomorrm']]);
-        if($dataSet['tujuan'] == '0'){
+        if ($dataSet['tujuan'] == '0') {
             $data = [
                 'kode' => 500,
                 'message' => 'Tujuan Harus dipilih !'
@@ -296,7 +443,7 @@ class RekamedisController extends Controller
             echo json_encode($data);
             die;
         }
-        if($dataSet['dokter'] == '0'){
+        if ($dataSet['dokter'] == '0') {
             $data = [
                 'kode' => 500,
                 'message' => 'Dokter Harus dipilih !'
@@ -304,7 +451,7 @@ class RekamedisController extends Controller
             echo json_encode($data);
             die;
         }
-        if($dataSet['tekanandarah'] == ''){
+        if ($dataSet['tekanandarah'] == '') {
             $data = [
                 'kode' => 500,
                 'message' => 'Tekanan darah harus diisi !'
@@ -312,7 +459,7 @@ class RekamedisController extends Controller
             echo json_encode($data);
             die;
         }
-        if($dataSet['suhutubuh'] == ''){
+        if ($dataSet['suhutubuh'] == '') {
             $data = [
                 'kode' => 500,
                 'message' => 'Suhu tubuh harus diisi !'
@@ -320,7 +467,7 @@ class RekamedisController extends Controller
             echo json_encode($data);
             die;
         }
-        if($dataSet['keluhanutama'] == ''){
+        if ($dataSet['keluhanutama'] == '') {
             $data = [
                 'kode' => 500,
                 'message' => 'Keluhan pasien belum diisi !'
@@ -369,31 +516,30 @@ class RekamedisController extends Controller
     public function batalkunjungan(Request $request)
     {
         $kodekunjungan = $request->kodekunjungan;
-        $ts_kunjungan = DB::select('select * from ts_kunjungan where kode_kunjungan = ?',[$kodekunjungan]);
-        if($ts_kunjungan[0]->status_kunjungan > 2 ){
-            if($ts_kunjungan[0]->status_kunjungan == 4){
+        $ts_kunjungan = DB::select('select * from ts_kunjungan where kode_kunjungan = ?', [$kodekunjungan]);
+        if ($ts_kunjungan[0]->status_kunjungan > 2) {
+            if ($ts_kunjungan[0]->status_kunjungan == 4) {
                 $data = [
                     'kode' => 500,
                     'message' => 'Pasien sudah selesai pelayanan !'
                 ];
                 echo json_encode($data);
-            }else if($ts_kunjungan[0]->status_kunjungan == 5){
+            } else if ($ts_kunjungan[0]->status_kunjungan == 5) {
                 $data = [
                     'kode' => 500,
                     'message' => 'Kunjungan sudah dibatalkan !'
                 ];
                 echo json_encode($data);
-            }
-            else{
+            } else {
                 $data = [
                     'kode' => 500,
                     'message' => 'Pasien sedang dalam pelayanan !'
                 ];
                 echo json_encode($data);
             }
-        }else{
+        } else {
             ts_kunjungan::where('kode_kunjungan', $kodekunjungan)
-            ->update(['status_kunjungan' => '5']);
+                ->update(['status_kunjungan' => '5']);
             $data = [
                 'kode' => 200,
                 'message' => 'Kunjungan Pasien dibatalkan !'
@@ -407,8 +553,8 @@ class RekamedisController extends Controller
         $detail = DB::select('SELECT a.status_layanan,b.status_layanan_detail,kode_kunjungan,a.kode_layanan_header,c.NAMA_TARIF,b.`grantotal_layanan`,b.status_layanan_detail FROM ts_layanan_header a
         LEFT OUTER JOIN ts_layanan_detail b ON a.id = b.row_id_header
         LEFT OUTER JOIN mt_tarif_header c ON b.kode_tarif_detail = c.KODE_TARIF_HEADER
-        WHERE kode_kunjungan = ?',[$request->kodekunjungan]);
-         return view('pendaftaran.detail_layanan',compact([
+        WHERE kode_kunjungan = ?', [$request->kodekunjungan]);
+        return view('pendaftaran.detail_layanan', compact([
             'detail',
             'kodekunjungan'
         ]));

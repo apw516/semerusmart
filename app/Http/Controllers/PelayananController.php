@@ -27,8 +27,17 @@ class PelayananController extends Controller
     public function riwayatpelayanan()
     {
         $menu = 'Riwayat Pelayanan';
+        $now = $this->get_date();
         return view('Pelayanan.riwayatpelayanan', compact([
-            'menu'
+            'menu',
+            'now'
+        ]));
+    }
+    public function riwayatpelayanan_dok(Request $request)
+    {
+        $data = db::Select('SELECT tgl_masuk,no_rm,fc_nama_px(no_rm) AS nama_pasien,keluhanutama  FROM ts_kunjungan WHERE DATE(tgl_masuk) BETWEEN ? AND ?', [$request->tanggalawal, $request->tanggalakhir]);
+        return view('Pelayanan.laporanpelayanan', compact([
+            'data'
         ]));
     }
     public function AntrianErm()
@@ -47,7 +56,7 @@ class PelayananController extends Controller
         $cs = count($assesment);
         $cm = DB::select('SELECT * FROM ts_kunjungan a
         INNER JOIN assesment_dokter b ON a.`kode_kunjungan` = b.`kodekunjungan` WHERE a.no_rm = ?', [$mt_pasien[0]->no_rm]);
-        $rto = DB::select('SELECT a.`kode_kunjungan`,b.`kode_tarif_detail`,c.NAMA_TARIF,a.catatan,b.`jumlah_layanan` FROM ts_layanan_header a
+        $rto = DB::select('SELECT a.`kode_kunjungan`,b.`kode_tarif_detail`,c.NAMA_TARIF,a.catatan,b.`jumlah_layanan`,b.aturan_pakai FROM ts_layanan_header a
         LEFT OUTER JOIN ts_layanan_detail b ON a.`id` = b.row_id_header
         LEFT OUTER JOIN mt_tarif_header c ON b.`kode_tarif_detail` = c.`KODE_TARIF_HEADER`
         WHERE a.`kode_kunjungan` = ? AND b.`status_layanan_detail` != ?', [$request->kodekunjungan, 8]);
@@ -283,8 +292,10 @@ class PelayananController extends Controller
                 //mencari paket atau bukan
                 if ($a['paket'] == 0) {
                     $tarif = 0;
+                    $kat_r = 'PAKET';
                 } else {
                     $tarif = $a['tarif'];
+                    $kat_r = 'NON-PAKET';
                 }
                 $cek_stok = DB::select('select STOK_CURRENT from mt_tarif_detail where KODE_TARIF_HEADER = ? AND KELAS_TARIF = ?', [$a['kodelayanan'], 3]);
                 $stok_last =  $cek_stok[0]->STOK_CURRENT;
@@ -302,6 +313,7 @@ class PelayananController extends Controller
                     'kode_dokter1' => '12',
                     'status_layanan_detail' => '1',
                     'aturan_pakai' => $a['aturanpakai'],
+                    'kategori_resep' => $kat_r,
                     'tgl_layanan_detail' => $this->get_now(),
                     'tgl_layanan_detail_2' => $this->get_now(),
                     'tagihan_pribadi' => $a['qty'] * $tarif,
@@ -493,14 +505,14 @@ class PelayananController extends Controller
 
             if (count($cek_layanan_header) > 0) {
                 $cek = 0;
-                foreach($cek_layanan_header as $ck){
-                    if($ck->status_layanan == 1){
+                foreach ($cek_layanan_header as $ck) {
+                    if ($ck->status_layanan == 1) {
                         $cek++;
                     }
                 }
-                if($cek > 1){
+                if ($cek > 1) {
                     $status_kj = 3;
-                }else{
+                } else {
                     $status_kj = 4;
                 }
             } else {
@@ -607,14 +619,14 @@ class PelayananController extends Controller
 
             if (count($cek_layanan_header) > 0) {
                 $cek = 0;
-                foreach($cek_layanan_header as $ck){
-                    if($ck->status_layanan == 1){
+                foreach ($cek_layanan_header as $ck) {
+                    if ($ck->status_layanan == 1) {
                         $cek++;
                     }
                 }
-                if($cek > 1){
+                if ($cek > 1) {
                     $status_kj = 3;
-                }else{
+                } else {
                     $status_kj = 4;
                 }
             } else {
